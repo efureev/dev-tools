@@ -49,7 +49,7 @@
     },
     "scripts": {
         "test": "@php ./vendor/bin/phpunit --no-coverage --testdox --colors=always",
-        "test-cover": "@php ./vendor/bin/phpunit",
+        "test-cover": "@php ./vendor/bin/phpunit --coverage-text --coverage-clover=clover.xml",
         "phpstan": "@php ./vendor/bin/phpstan analyze --no-progress --ansi --level=max ./src"
     },
     "suggest": {

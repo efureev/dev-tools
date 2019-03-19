@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog] and this project adheres to [Semantic Versioning][semver].
 
+## v2.0.0
+
+### Changed
+
+- upgrade to PHP 7.3
+- upgrade to Laravel ~5.8
+- upgrade to PHPUnit 8
+
 ## v1.9.2
 
 ### Fixed

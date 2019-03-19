@@ -17,7 +17,7 @@
 Require this package with composer using the following command:
 
 ```shell
-$ composer require --dev avto-dev/dev-tools "^1.9.1"
+$ composer require --dev efureev/dev-tools "^2.0.0"
 ```
 
 > Installed `composer` is required ([how to install composer][getcomposer]).
@@ -108,7 +108,7 @@ class MyBootstrap extends \AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstr
 
 Их отличительная особенность заключается в том, что они содержат дополнительные `assert`-методы, которые позволят вам писать писать более лаконичные и выразительные тесты. Данный функционал подключается с помощью трейтов, так что вы сможете при необходимости составить свой собственный абстрактный класс (не наследованный от поставляемого) с необходимым набором "фишек".
 
-Рекомендация использовать абстрактные классы обусловлена тем, что их функционал с течением времени будет расширяться, и вы сможете получать их новые возможности при помощи одной лишь команды `composer update avto-dev/dev-tools`.
+Рекомендация использовать абстрактные классы обусловлена тем, что их функционал с течением времени будет расширяться, и вы сможете получать их новые возможности при помощи одной лишь команды `composer update efureev/dev-tools`.
 
 #### Для Laravel-приложений
 
@@ -144,7 +144,7 @@ class MyBootstrap extends \AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstr
 For package testing we use `phpunit` framework. Just write into your terminal:
 
 ```shell
-$ git clone git@github.com:avto-dev/dev-tools.git ./dev-tools && cd $_
+$ git clone git@github.com:efureev/dev-tools.git ./dev-tools && cd $_
 $ composer install
 $ composer test
 ```
@@ -167,27 +167,27 @@ If you will find any package errors, please, [make an issue][link_create_issue] 
 
 This is open-sourced software licensed under the [MIT License][link_license].
 
-[badge_packagist_version]:https://img.shields.io/packagist/v/avto-dev/dev-tools.svg?maxAge=180
-[badge_php_version]:https://img.shields.io/packagist/php-v/avto-dev/dev-tools.svg?longCache=true
-[badge_build_status]:https://travis-ci.org/avto-dev/dev-tools.svg?branch=master
-[badge_code_quality]:https://img.shields.io/scrutinizer/g/avto-dev/dev-tools.svg?maxAge=180
-[badge_coverage]:https://img.shields.io/codecov/c/github/avto-dev/dev-tools/master.svg?maxAge=60
-[badge_downloads_count]:https://img.shields.io/packagist/dt/avto-dev/dev-tools.svg?maxAge=180
-[badge_license]:https://img.shields.io/packagist/l/avto-dev/dev-tools.svg?longCache=true
-[badge_release_date]:https://img.shields.io/github/release-date/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
-[badge_commits_since_release]:https://img.shields.io/github/commits-since/avto-dev/dev-tools/latest.svg?style=flat-square&maxAge=180
-[badge_issues]:https://img.shields.io/github/issues/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
-[badge_pulls]:https://img.shields.io/github/issues-pr/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
-[link_releases]:https://github.com/avto-dev/dev-tools/releases
-[link_packagist]:https://packagist.org/packages/avto-dev/dev-tools
-[link_build_status]:https://travis-ci.org/avto-dev/dev-tools
-[link_coverage]:https://codecov.io/gh/avto-dev/dev-tools/
-[link_changes_log]:https://github.com/avto-dev/dev-tools/blob/master/CHANGELOG.md
-[link_code_quality]:https://scrutinizer-ci.com/g/avto-dev/dev-tools/
-[link_issues]:https://github.com/avto-dev/dev-tools/issues
-[link_create_issue]:https://github.com/avto-dev/dev-tools/issues/new/choose
-[link_commits]:https://github.com/avto-dev/dev-tools/commits
-[link_pulls]:https://github.com/avto-dev/dev-tools/pulls
-[link_license]:https://github.com/avto-dev/dev-tools/blob/master/LICENSE
+[badge_packagist_version]:https://img.shields.io/packagist/v/efureev/dev-tools.svg?maxAge=180
+[badge_php_version]:https://img.shields.io/packagist/php-v/efureev/dev-tools.svg?longCache=true
+[badge_build_status]:https://travis-ci.org/efureev/dev-tools.svg?branch=master
+[badge_code_quality]:https://img.shields.io/scrutinizer/g/efureev/dev-tools.svg?maxAge=180
+[badge_coverage]:https://img.shields.io/codecov/c/github/efureev/dev-tools/master.svg?maxAge=60
+[badge_downloads_count]:https://img.shields.io/packagist/dt/efureev/dev-tools.svg?maxAge=180
+[badge_license]:https://img.shields.io/packagist/l/efureev/dev-tools.svg?longCache=true
+[badge_release_date]:https://img.shields.io/github/release-date/efureev/dev-tools.svg?style=flat-square&maxAge=180
+[badge_commits_since_release]:https://img.shields.io/github/commits-since/efureev/dev-tools/latest.svg?style=flat-square&maxAge=180
+[badge_issues]:https://img.shields.io/github/issues/efureev/dev-tools.svg?style=flat-square&maxAge=180
+[badge_pulls]:https://img.shields.io/github/issues-pr/efureev/dev-tools.svg?style=flat-square&maxAge=180
+[link_releases]:https://github.com/efureev/dev-tools/releases
+[link_packagist]:https://packagist.org/packages/efureev/dev-tools
+[link_build_status]:https://travis-ci.org/efureev/dev-tools
+[link_coverage]:https://codecov.io/gh/efureev/dev-tools/
+[link_changes_log]:https://github.com/efureev/dev-tools/blob/master/CHANGELOG.md
+[link_code_quality]:https://scrutinizer-ci.com/g/efureev/dev-tools/
+[link_issues]:https://github.com/efureev/dev-tools/issues
+[link_create_issue]:https://github.com/efureev/dev-tools/issues/new/choose
+[link_commits]:https://github.com/efureev/dev-tools/commits
+[link_pulls]:https://github.com/efureev/dev-tools/pulls
+[link_license]:https://github.com/efureev/dev-tools/blob/master/LICENSE
 [getcomposer]:https://getcomposer.org/download/
 [roadrunner]:https://github.com/spiral/roadrunner
