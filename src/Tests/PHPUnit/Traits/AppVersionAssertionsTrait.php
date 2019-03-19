@@ -7,6 +7,10 @@ namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 use PHPUnit\Framework\AssertionFailedError;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
+/**
+ * Trait AppVersionAssertionsTrait
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 trait AppVersionAssertionsTrait
 {
     /**
@@ -45,7 +49,7 @@ trait AppVersionAssertionsTrait
      *
      * @return void
      */
-    public function assertAppVersionAndVersionInChangeLogIsEquals()
+    public function assertAppVersionAndVersionInChangeLogIsEquals(): void
     {
         static::assertSame(
             $this->getCurrentApplicationVersion(),
@@ -60,7 +64,7 @@ trait AppVersionAssertionsTrait
      *
      * @return string|null
      */
-    public function getLastChangeLogVersion()
+    public function getLastChangeLogVersion(): ?string
     {
         $matches = [];
 

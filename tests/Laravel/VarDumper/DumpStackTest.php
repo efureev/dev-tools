@@ -1,12 +1,16 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Tests\AvtoDev\DevTools\Laravel\VarDumper;
 
-use Tests\AvtoDev\DevTools\AbstractTestCase;
 use AvtoDev\DevTools\Laravel\VarDumper\DumpStack;
+use Tests\AvtoDev\DevTools\AbstractTestCase;
 
+/**
+ * Class DumpStackTest
+ * @package Tests\AvtoDev\DevTools\Laravel\VarDumper
+ */
 class DumpStackTest extends AbstractTestCase
 {
     /**
@@ -17,7 +21,7 @@ class DumpStackTest extends AbstractTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -29,9 +33,9 @@ class DumpStackTest extends AbstractTestCase
      *
      * @covers \AvtoDev\DevTools\Laravel\VarDumper\DumpStack
      */
-    public function testInterfaces()
+    public function testInterfaces(): void
     {
-        $this->assertInstanceOf(\Countable::class, $this->stack);
+        static::assertInstanceOf(\Countable::class, $this->stack);
     }
 
     /**
@@ -39,15 +43,17 @@ class DumpStackTest extends AbstractTestCase
      *
      * @covers \AvtoDev\DevTools\Laravel\VarDumper\DumpStack::push
      * @covers \AvtoDev\DevTools\Laravel\VarDumper\DumpStack::all
+     *
+     * @throws \Exception
      */
-    public function testPush()
+    public function testPush(): void
     {
-        $this->assertCount(0, $this->stack);
+        static::assertCount(0, $this->stack);
 
         $this->stack->push($value = 'foo_' . \random_int(1, 255));
 
-        $this->assertCount(1, $this->stack);
-        $this->assertSame($value, $this->stack->all()[0]);
+        static::assertCount(1, $this->stack);
+        static::assertSame($value, $this->stack->all()[0]);
     }
 
     /**
@@ -57,15 +63,15 @@ class DumpStackTest extends AbstractTestCase
      * @covers \AvtoDev\DevTools\Laravel\VarDumper\DumpStack::count
      * @covers \AvtoDev\DevTools\Laravel\VarDumper\DumpStack::push
      */
-    public function testClearAndCount()
+    public function testClearAndCount(): void
     {
         $this->stack->push('foo');
 
-        $this->assertEquals(1, $this->stack->count());
+        static::assertEquals(1, $this->stack->count());
 
         $this->stack->clear();
 
-        $this->assertEquals(0, $this->stack->count());
+        static::assertEquals(0, $this->stack->count());
     }
 
     /**
@@ -74,7 +80,7 @@ class DumpStackTest extends AbstractTestCase
      * @covers \AvtoDev\DevTools\Laravel\VarDumper\DumpStack::all
      * @covers \AvtoDev\DevTools\Laravel\VarDumper\DumpStack::push
      */
-    public function testAll()
+    public function testAll(): void
     {
         $data = ['baz', 'foo', 'bar'];
 
@@ -82,6 +88,6 @@ class DumpStackTest extends AbstractTestCase
             $this->stack->push($item);
         }
 
-        $this->assertSame($data, $this->stack->all());
+        static::assertSame($data, $this->stack->all());
     }
 }

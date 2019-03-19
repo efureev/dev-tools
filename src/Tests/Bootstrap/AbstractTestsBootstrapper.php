@@ -7,17 +7,21 @@ namespace AvtoDev\DevTools\Tests\Bootstrap;
 use Exception;
 use TypeError;
 
+/**
+ * Class AbstractTestsBootstrapper
+ * @package AvtoDev\DevTools\Tests\Bootstrap
+ */
 abstract class AbstractTestsBootstrapper
 {
     /**
      * Prefix for 'magic' bootstrap methods.
      */
-    const MAGIC_METHODS_PREFIX = 'boot';
+    protected const MAGIC_METHODS_PREFIX = 'boot';
 
     /**
      * AbstractTestsBootstrapper constructor.
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct()
     {
@@ -40,7 +44,7 @@ abstract class AbstractTestsBootstrapper
             if (static::startsWith($method_name, static::MAGIC_METHODS_PREFIX)) {
                 // ...and make call
                 if ($this->$method_name() !== true) {
-                    throw new Exception(sprintf(
+                    throw new \Exception(sprintf(
                         'Bootstrap method "%s" has non-true result. So, we cannot start tests for this reason',
                         $method_name
                     ));
@@ -54,15 +58,15 @@ abstract class AbstractTestsBootstrapper
     /**
      * Determine if a given string starts with a given substring.
      *
-     * @param string       $haystack
+     * @param string $haystack
      * @param string|array $needles
      *
      * @return bool
      */
     public static function startsWith($haystack, $needles): bool
     {
-        foreach ((array) $needles as $needle) {
-            if ($needle !== '' && \mb_strpos($haystack, (string) $needle) === 0) {
+        foreach ((array)$needles as $needle) {
+            if ($needle !== '' && \mb_strpos($haystack, (string)$needle) === 0) {
                 return true;
             }
         }

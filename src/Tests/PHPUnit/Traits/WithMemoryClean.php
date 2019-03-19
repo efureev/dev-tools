@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
 use Closure;
-use PHPUnit\Framework\TestCase as PHPHUnitTestCase;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
+use PHPUnit\Framework\TestCase as PHPHUnitTestCase;
 
 /**
  * If you want to use this trait without laravel-framework you mast call `clearMemory` method on `tearDown` in test.
@@ -18,12 +18,12 @@ trait WithMemoryClean
      *
      * WARNING this code has bad influence on time of execution
      */
-    public function clearMemory()
+    public function clearMemory(): void
     {
         $refection = new \ReflectionObject($this);
 
         foreach ($refection->getProperties() as $property) {
-            if (! $property->isStatic()
+            if (!$property->isStatic()
                 && ($declaring_class_name = $property->getDeclaringClass()->getName()) !== PHPHUnitTestCase::class
                 && $declaring_class_name !== IlluminateTestCase::class
             ) {
@@ -42,7 +42,7 @@ trait WithMemoryClean
      *
      * @return void
      */
-    public function enableCleanMemory()
+    public function enableCleanMemory(): void
     {
         $this->beforeApplicationDestroyed($this->cleanMemoryClosureFactory());
     }

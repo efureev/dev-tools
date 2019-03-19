@@ -1,11 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Laravel\VarDumper;
 
 use Countable;
 
+/**
+ * Interface DumpStackInterface
+ * @package AvtoDev\DevTools\Laravel\VarDumper
+ */
 interface DumpStackInterface extends Countable
 {
     /**
@@ -13,14 +17,12 @@ interface DumpStackInterface extends Countable
      *
      * @param string $data
      */
-    public function push(string $data);
+    public function push(string $data): void;
 
     /**
      * Clear stack.
-     *
-     * @return void
      */
-    public function clear();
+    public function clear(): void;
 
     /**
      * Get all stack elements.

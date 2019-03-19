@@ -6,6 +6,10 @@ namespace AvtoDev\DevTools\Tests\PHPUnit;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class AbstractTestCase
+ * @package AvtoDev\DevTools\Tests\PHPUnit
+ */
 abstract class AbstractTestCase extends TestCase
 {
     use Traits\AdditionalAssertionsTrait,

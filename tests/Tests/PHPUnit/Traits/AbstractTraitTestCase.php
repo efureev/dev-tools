@@ -3,10 +3,14 @@
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
 use PHPUnit\Framework\AssertionFailedError;
-use Tests\AvtoDev\DevTools\AbstractTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use Tests\AvtoDev\DevTools\AbstractTestCase;
 
+/**
+ * Class AbstractTraitTestCase
+ * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 abstract class AbstractTraitTestCase extends AbstractTestCase
 {
     /**
@@ -18,16 +22,16 @@ abstract class AbstractTraitTestCase extends AbstractTestCase
 
     /**
      * @param string $method_name
-     * @param array  $valid
-     * @param array  $invalid
-     * @param mixed  ...$args
+     * @param array $valid
+     * @param array $invalid
+     * @param mixed ...$args
      *
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
      *
      * @return void
      */
-    protected function makeAssertTest(string $method_name, array $valid, array $invalid, ...$args)
+    protected function makeAssertTest(string $method_name, array $valid, array $invalid, ...$args): void
     {
         $instance = $this->classUsedTraitFactory();
 
@@ -46,7 +50,7 @@ abstract class AbstractTraitTestCase extends AbstractTestCase
                 $caught = true;
             }
 
-            $this->assertTrue($caught, 'Passed invalid value: ' . var_export($invalid_assert, true));
+            static::assertTrue($caught, 'Passed invalid value: ' . var_export($invalid_assert, true));
         }
     }
 }

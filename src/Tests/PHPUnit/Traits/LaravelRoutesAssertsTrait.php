@@ -1,13 +1,17 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
 use Illuminate\Routing\Route;
-use InvalidArgumentException;
 use Illuminate\Routing\Router;
+use InvalidArgumentException;
 
+/**
+ * Trait LaravelRoutesAssertsTrait
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 trait LaravelRoutesAssertsTrait
 {
     /**
@@ -17,7 +21,7 @@ trait LaravelRoutesAssertsTrait
      *
      * @throws \InvalidArgumentException
      */
-    public function assertAllRoutesHasActions($router = null)
+    public function assertAllRoutesHasActions($router = null): void
     {
         if ($router === null) {
             $router = $this->app->make(Router::class);

@@ -1,16 +1,20 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use Illuminate\Support\Str;
-use Illuminate\Log\LogManager;
-use Illuminate\Filesystem\Filesystem;
-use PHPUnit\Framework\AssertionFailedError;
 use Illuminate\Config\Repository as ConfigRepository;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Log\LogManager;
+use Illuminate\Support\Str;
+use PHPUnit\Framework\AssertionFailedError;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
+/**
+ * Trait LaravelLogFilesAssertsTrait
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 trait LaravelLogFilesAssertsTrait
 {
     /**
@@ -54,12 +58,12 @@ trait LaravelLogFilesAssertsTrait
      *
      * @return void
      */
-    public function clearLaravelLogs($logs_directory_path = null)
+    public function clearLaravelLogs($logs_directory_path = null): void
     {
-        $fs             = new Filesystem;
+        $fs = new Filesystem;
         $directory_path = $logs_directory_path ?? $this->getDefaultLogsDirectoryPath();
 
-        if (! $fs->isDirectory($directory_path)) {
+        if (!$fs->isDirectory($directory_path)) {
             return;
         }
 
@@ -92,7 +96,7 @@ trait LaravelLogFilesAssertsTrait
      *
      * @return void
      */
-    public function assertLogFileExists(string $file_name = 'laravel.log')
+    public function assertLogFileExists(string $file_name = 'laravel.log'): void
     {
         $this->assertFileExists(
             $this->getDefaultLogsDirectoryPath($file_name),
@@ -110,7 +114,7 @@ trait LaravelLogFilesAssertsTrait
      *
      * @return void
      */
-    public function assertLogFileNotExists(string $file_name = 'laravel.log')
+    public function assertLogFileNotExists(string $file_name = 'laravel.log'): void
     {
         $this->assertFileNotExists(
             $this->getDefaultLogsDirectoryPath($file_name),
@@ -121,8 +125,8 @@ trait LaravelLogFilesAssertsTrait
     /**
      * Assert that log file contains passed substring.
      *
-     * @param string   $substring
-     * @param string   $file
+     * @param string $substring
+     * @param string $file
      * @param int|null $lines_limit Make search only in N last log files lines. Pass null to disable this limitation
      *
      * @throws AssertionFailedError
@@ -130,22 +134,23 @@ trait LaravelLogFilesAssertsTrait
      *
      * @return void
      */
-    public function assertLogFileContains(string $substring, string $file = 'laravel.log', $lines_limit = null)
+    public function assertLogFileContains(string $substring, string $file = 'laravel.log', $lines_limit = null): void
     {
         $lines = $this->getLogFileContentAsArray($file, $lines_limit === null
             ? $lines_limit
             : $lines_limit + 1);
 
         $this->assertLogFileExists($file);
-        $this->assertContains($substring, \implode("\n", $lines),
+
+        $this->assertStringContainsString($substring, \implode("\n", $lines),
             "Log file [{$file}] does not contains [{$substring}].");
     }
 
     /**
      * Assert that log file NOT contains passed substring.
      *
-     * @param string   $substring
-     * @param string   $file
+     * @param string $substring
+     * @param string $file
      * @param int|null $lines_limit Make search only in N last log files lines. Pass null to disable this limitation
      *
      * @throws AssertionFailedError
@@ -153,13 +158,13 @@ trait LaravelLogFilesAssertsTrait
      *
      * @return void
      */
-    public function assertLogFileNotContains(string $substring, string $file = 'laravel.log', $lines_limit = null)
+    public function assertLogFileNotContains(string $substring, string $file = 'laravel.log', $lines_limit = null): void
     {
         $lines = $this->getLogFileContentAsArray($file, $lines_limit === null
             ? $lines_limit
             : $lines_limit + 1);
 
-        $this->assertNotContains($substring, \implode("\n", $lines), "Log file [{$file}] contains [{$substring}].");
+        $this->assertStringNotContainsString($substring, \implode("\n", $lines), "Log file [{$file}] contains [{$substring}].");
     }
 
     /**
@@ -187,29 +192,32 @@ trait LaravelLogFilesAssertsTrait
      *
      * @param string $file_name
      *
-     * @return bool|string
+     * @return string|null
      */
-    public function getLogFileContent(string $file_name = 'laravel.log')
+    public function getLogFileContent(string $file_name = 'laravel.log'): ?string
     {
         $file_path = $this->getDefaultLogsDirectoryPath($file_name);
 
         $this->assertFileExists($file_path, "Log file [{$file_path}] does not exists.");
 
-        return \file_get_contents($file_path);
+        if (!$content = \file_get_contents($file_path)) {
+            return null;
+        }
+        return $content;
     }
 
     /**
      * Get log files last lines an an array of strings.
      *
-     * @param string   $file_name
+     * @param string $file_name
      * @param int|null $lines_limit Lines limit from file end
      *
      * @return string[]
      */
     public function getLogFileContentAsArray(string $file_name = 'laravel.log', $lines_limit = null): array
     {
-        $content     = $this->getLogFileContent($file_name);
-        $lines       = \preg_split('/\\r|\\n/', $content);
+        $content = $this->getLogFileContent($file_name);
+        $lines = \preg_split('/\\r|\\n/', $content);
         $lines_count = \count($lines);
 
         if ($lines_limit !== null && $lines_limit > 0 && $lines_count >= $lines_limit) {

@@ -2,11 +2,11 @@
 
 namespace dev;
 
-use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use AvtoDev\DevTools\Exceptions\VarDumperException;
 use AvtoDev\DevTools\Laravel\VarDumper\DumpStackInterface;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
 /**
  * Detects ran using CLI.
@@ -16,11 +16,11 @@ use Illuminate\Foundation\Application as LaravelApplication;
 function ran_using_cli(): bool
 {
     if (isset($_SERVER[$name = 'DEV_DUMP_CLI_MODE'])) {
-        return ((bool) $_SERVER[$name]) === true;
+        return ((bool)$_SERVER[$name]) === true;
     }
 
     // Detect running under RoadRunner (since RR v1.2.1)
-    if (((bool) \getenv('RR_HTTP')) === true) {
+    if (((bool)\getenv('RR_HTTP')) === true) {
         return false;
     }
 
@@ -72,7 +72,7 @@ function dump(...$arguments)
 
         \dump(...$arguments);
 
-    // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreEnd
     } else {
         $dumper = new HtmlDumper;
 
@@ -82,7 +82,7 @@ function dump(...$arguments)
             $stack = \app(DumpStackInterface::class);
 
             foreach ($arguments as $argument) {
-                $stack->push($dumper->dump((new VarCloner)->cloneVar($argument), true));
+                $stack->push((string)$dumper->dump((new VarCloner)->cloneVar($argument), true));
             }
         }
     }

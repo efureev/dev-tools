@@ -7,6 +7,10 @@ namespace AvtoDev\DevTools\Tests\PHPUnit;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
 
+/**
+ * Class AbstractLaravelTestCase
+ * @package AvtoDev\DevTools\Tests\PHPUnit
+ */
 abstract class AbstractLaravelTestCase extends TestCase
 {
     use Traits\AdditionalAssertionsTrait,
@@ -20,7 +24,7 @@ abstract class AbstractLaravelTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUpTraits()
+    protected function setUpTraits(): array
     {
         $uses = parent::setUpTraits();
 
@@ -45,9 +49,9 @@ abstract class AbstractLaravelTestCase extends TestCase
      *
      * @see \AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait::createApplication
      *
-     * @return void
+     * @param Application $app
      */
-    protected function beforeApplicationBootstrapped(Application $app)
+    protected function beforeApplicationBootstrapped(Application $app): void
     {
         //
     }
@@ -57,9 +61,9 @@ abstract class AbstractLaravelTestCase extends TestCase
      *
      * @see \AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait::createApplication
      *
-     * @return void
+     * @param Application $app
      */
-    protected function afterApplicationBootstrapped(Application $app)
+    protected function afterApplicationBootstrapped(Application $app): void
     {
         //
     }

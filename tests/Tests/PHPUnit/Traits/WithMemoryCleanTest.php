@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\WithMemoryClean;
 use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\WithMemoryClean;
 
+/**
+ * Class WithMemoryCleanTest
+ * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 class WithMemoryCleanTest extends AbstractLaravelTestCase
 {
     use WithMemoryClean;
@@ -16,22 +20,26 @@ class WithMemoryCleanTest extends AbstractLaravelTestCase
      */
     protected $test_property;
 
-    public function testSomeShit()
+    /**
+     * Shit func
+     */
+    public function testSomeShit(): void
     {
         $this->test_property = 'test';
         $this->clearMemory();
-        $this->assertNull($this->test_property);
+        static::assertNull($this->test_property);
     }
 
     /**
      * Test closure registration.
      *
      * @return void
+     * @throws \Exception
      */
-    public function testClosureRegistration()
+    public function testClosureRegistration(): void
     {
         $closure_hash = static::getClosureHash($this->cleanMemoryClosureFactory());
-        $found        = false;
+        $found = false;
 
         foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
             if (static::getClosureHash($callback) === $closure_hash) {
@@ -41,6 +49,6 @@ class WithMemoryCleanTest extends AbstractLaravelTestCase
             }
         }
 
-        $this->assertTrue($found, 'Closure is not registered on application destroyed');
+        static::assertTrue($found, 'Closure is not registered on application destroyed');
     }
 }

@@ -6,9 +6,13 @@ namespace AvtoDev\DevTools\Laravel\DatabaseQueriesLogger;
 
 use DateTime;
 use Exception;
-use Psr\Log\LoggerInterface;
 use Illuminate\Database\Events\QueryExecuted;
+use Psr\Log\LoggerInterface;
 
+/**
+ * Class QueryExecutedEventsListener
+ * @package AvtoDev\DevTools\Laravel\DatabaseQueriesLogger
+ */
 class QueryExecutedEventsListener
 {
     /**
@@ -33,32 +37,30 @@ class QueryExecutedEventsListener
      */
     public function loggingLevel(): string
     {
-        return (string) env('DATABASE_QUERIES_LOGGING_LEVEL', 'debug');
+        // @todo verify env()
+        // return (string)env('DATABASE_QUERIES_LOGGING_LEVEL', 'debug');
+        return (string)(getenv('DATABASE_QUERIES_LOGGING_LEVEL', true) ?: 'debug');
     }
 
     /**
      * Handle the event.
      *
      * @param QueryExecuted $event
-     *
-     * @return void
      */
-    public function handle(QueryExecuted $event)
+    public function handle(QueryExecuted $event): void
     {
         try {
-            $bindings   = (array) $event->bindings;
-            $duration   = $event->time;
+            $bindings = (array)$event->bindings;
+            $duration = $event->time;
             $connection = $event->connection->getName();
-            $data       = \compact('bindings', 'duration', 'connection');
+            $data = \compact('bindings', 'duration', 'connection');
 
             // Format binding data
             foreach ($bindings as $i => $binding) {
                 if ($binding instanceof DateTime) {
                     $bindings[$i] = $binding->format('Y-m-d H:i:s');
-                } else {
-                    if (\is_string($binding)) {
-                        $bindings[$i] = "'$binding'";
-                    }
+                } else if (\is_string($binding)) {
+                    $bindings[$i] = "'$binding'";
                 }
             }
 

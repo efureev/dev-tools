@@ -2,11 +2,12 @@
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use Illuminate\Console\Command;
-use PHPUnit\Framework\Exception;
 use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
+use PHPUnit\Framework\Exception;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use Symfony\Component\Console\Input\InputDefinition;
 
 /**
  * @mixin AbstractLaravelTestCase
@@ -20,7 +21,7 @@ trait LaravelCommandsAssertionsTrait
      *
      * @throws InvalidArgumentException
      */
-    public function assertArtisanCommandExists($command)
+    public function assertArtisanCommandExists($command): void
     {
         if (\is_object($command)) {
             $command = get_class($command);
@@ -33,7 +34,7 @@ trait LaravelCommandsAssertionsTrait
 
         $command_exists = \array_key_exists($command, $all_commands);
 
-        if (! $command_exists) {
+        if (!$command_exists) {
             foreach ($all_commands as $command_instance) {
                 if ($command_exists = ($command_instance instanceof $command)) {
                     break;
@@ -48,11 +49,11 @@ trait LaravelCommandsAssertionsTrait
      * Asserts that command has specific option.
      *
      * @param string|Command $command Command name|class_name|instance that must be checked
-     * @param string         $option  Option name
+     * @param string $option Option name
      *
      * @throws InvalidArgumentException
      */
-    public function assertArtisanCommandHasOption(string $option, $command)
+    public function assertArtisanCommandHasOption(string $option, $command): void
     {
         $command = $this->buildCommand($command);
 
@@ -64,12 +65,12 @@ trait LaravelCommandsAssertionsTrait
     /**
      * Asserts that command has specific argument.
      *
-     * @param string|Command $command  Command name|class_name|instance that must be checked
-     * @param string         $argument Argument name
+     * @param string|Command $command Command name|class_name|instance that must be checked
+     * @param string $argument Argument name
      *
      * @throws InvalidArgumentException
      */
-    public function assertArtisanCommandHasArgument(string $argument, $command)
+    public function assertArtisanCommandHasArgument(string $argument, $command): void
     {
         $command = $this->buildCommand($command);
 
@@ -81,12 +82,12 @@ trait LaravelCommandsAssertionsTrait
     /**
      * Assert that command has specific option shortcut.
      *
-     * @param string|Command $command  Command name|class_name|instance that must be checked
-     * @param string         $shortcut Shortcut name
+     * @param string|Command $command Command name|class_name|instance that must be checked
+     * @param string $shortcut Shortcut name
      *
      * @throws InvalidArgumentException
      */
-    public function assertArtisanCommandHasOptionShortcut(string $shortcut, $command)
+    public function assertArtisanCommandHasOptionShortcut(string $shortcut, $command): void
     {
         $command = $this->buildCommand($command);
 
@@ -98,14 +99,14 @@ trait LaravelCommandsAssertionsTrait
     /**
      * Assert that command shortcut belongs to specific option.
      *
-     * @param string|Command $command  Command name|class_name|instance that must be checked
-     * @param string         $shortcut Shortcut name
-     * @param string         $option   Option name
+     * @param string|Command $command Command name|class_name|instance that must be checked
+     * @param string $shortcut Shortcut name
+     * @param string $option Option name
      *
      * @throws Exception
      * @throws InvalidArgumentException
      */
-    public function assertArtisanCommandShortcutBelongToOption(string $shortcut, string $option, $command)
+    public function assertArtisanCommandShortcutBelongToOption(string $shortcut, string $option, $command): void
     {
         $this->assertArtisanCommandHasOptionShortcut($shortcut, $command);
 
@@ -118,9 +119,12 @@ trait LaravelCommandsAssertionsTrait
             $option
         );
 
+        $def = $command->getDefinition();
+        static::assertInstanceOf(InputDefinition::class, $def);
+
         static::assertEquals(
             $option,
-            $this->getObjectAttribute($command->getDefinition(), 'shortcuts')[$shortcut] ?? '',
+            $def->getOptionForShortcut('O')->getName(),
             $message
         );
     }
@@ -132,7 +136,7 @@ trait LaravelCommandsAssertionsTrait
      *
      * @throws InvalidArgumentException
      */
-    public function assertArtisanCommandDescriptionNotEmpty($command)
+    public function assertArtisanCommandDescriptionNotEmpty($command): void
     {
         $command = $this->buildCommand($command);
 
@@ -145,11 +149,11 @@ trait LaravelCommandsAssertionsTrait
      * Assert that artisan command has description.
      *
      * @param string|Command $command Command name|class_name|instance that must be checked
-     * @param string         $pattern Regular expression     *
+     * @param string $pattern Regular expression     *
      *
      * @throws InvalidArgumentException
      */
-    public function assertArtisanCommandDescriptionRegExp(string $pattern, $command)
+    public function assertArtisanCommandDescriptionRegExp(string $pattern, $command): void
     {
         $command = $this->buildCommand($command);
 
@@ -172,7 +176,7 @@ trait LaravelCommandsAssertionsTrait
         /** @var ConsoleKernelContract $artisan */
         $artisan = $this->app->make(ConsoleKernelContract::class);
 
-        if (! \is_object($command)) {
+        if (!\is_object($command)) {
             if (\array_key_exists($command, $artisan->all())) {
                 $command = $artisan->all()[$command];
             } elseif (\class_exists($command)) {

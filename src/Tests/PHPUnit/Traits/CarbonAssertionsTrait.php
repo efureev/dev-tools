@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use DateTime;
 use Carbon\Carbon;
+use DateTime;
 use PHPUnit\Framework\AssertionFailedError;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
+/**
+ * Trait CarbonAssertionsTrait
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 trait CarbonAssertionsTrait
 {
     /**
@@ -25,15 +29,15 @@ trait CarbonAssertionsTrait
      * </code>
      *
      * @param string|null $expected
-     * @param DateTime    $actual
-     * @param bool        $ignore_time
+     * @param DateTime $actual
+     * @param bool $ignore_time
      *
      * @throws AssertionFailedError
      * @throws InvalidArgumentException
      *
      * @return void
      */
-    public static function assertCarbonParseEquals(string $expected = null, DateTime $actual, bool $ignore_time = false)
+    public static function assertCarbonParseEquals(?string $expected, DateTime $actual, bool $ignore_time = false): void
     {
         $parsed = Carbon::parse($expected);
         $actual = Carbon::instance($actual);

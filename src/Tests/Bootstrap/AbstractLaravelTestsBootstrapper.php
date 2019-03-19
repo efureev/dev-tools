@@ -9,6 +9,10 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+/**
+ * Class AbstractLaravelTestsBootstrapper
+ * @package AvtoDev\DevTools\Tests\Bootstrap
+ */
 abstract class AbstractLaravelTestsBootstrapper extends AbstractTestsBootstrapper
 {
     /**
@@ -28,12 +32,12 @@ abstract class AbstractLaravelTestsBootstrapper extends AbstractTestsBootstrappe
      */
     public function __construct()
     {
-        $this->app   = $this->createApplication();
+        $this->app = $this->createApplication();
         $this->files = $this->app->make('files');
 
         parent::__construct();
 
-        $this->log(null);
+        $this->log();
     }
 
     /**
@@ -41,26 +45,26 @@ abstract class AbstractLaravelTestsBootstrapper extends AbstractTestsBootstrappe
      *
      * @return Application
      */
-    abstract public function createApplication();
+    abstract public function createApplication(): Application;
 
     /**
      * Show "styled" console message.
      *
      * @param string|null $message
-     * @param string      $style
+     * @param string $style
      *
      * @return void
      */
-    protected function log($message = null, $style = 'info')
+    protected function log($message = null, $style = 'info'): void
     {
         /** @var ConsoleOutput|null $output */
         static $output = null;
 
-        if (! ($output instanceof ConsoleOutput)) {
+        if (!($output instanceof ConsoleOutput)) {
             $output = $this->app->make(ConsoleOutput::class);
         }
 
-        $output->writeln(empty((string) $message)
+        $output->writeln(empty((string)$message)
             ? ''
             : sprintf('<%1$s>> Bootstrap:</%1$s> <%2$s>%3$s</%2$s>', 'comment', $style, $message)
         );

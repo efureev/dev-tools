@@ -1,9 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Laravel\VarDumper;
 
+/**
+ * Class DumpStack
+ * @package AvtoDev\DevTools\Laravel\VarDumper
+ */
 class DumpStack implements DumpStackInterface
 {
     /**
@@ -14,7 +18,7 @@ class DumpStack implements DumpStackInterface
     /**
      * {@inheritdoc}
      */
-    public function push(string $data)
+    public function push(string $data): void
     {
         $this->stack[] = $data;
     }
@@ -22,7 +26,7 @@ class DumpStack implements DumpStackInterface
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function clear(): void
     {
         $this->stack = [];
     }

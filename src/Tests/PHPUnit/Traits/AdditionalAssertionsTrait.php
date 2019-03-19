@@ -4,58 +4,16 @@ declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
+/**
+ * Trait AdditionalAssertionsTrait
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 trait AdditionalAssertionsTrait
 {
-    /**
-     * Asserts that value(s) has a numeric type.
-     *
-     * @param mixed $value
-     *
-     * @throws AssertionFailedError
-     * @throws InvalidArgumentException
-     *
-     * @return void
-     */
-    public static function assertIsNumeric($value)
-    {
-        static::assertInternalType(IsType::TYPE_NUMERIC, $value, 'Must be type of numeric');
-    }
-
-    /**
-     * Asserts that value(s) has a integer type.
-     *
-     * @param mixed $value
-     *
-     * @throws AssertionFailedError
-     * @throws InvalidArgumentException
-     *
-     * @return void
-     */
-    public static function assertIsInteger($value)
-    {
-        static::assertInternalType(IsType::TYPE_INT, $value, 'Must be type of integer');
-    }
-
-    /**
-     * Asserts that value(s) is array.
-     *
-     * @param array|mixed $value
-     *
-     * @throws AssertionFailedError
-     * @throws InvalidArgumentException
-     *
-     * @return void
-     */
-    public static function assertIsArray($value)
-    {
-        static::assertInternalType(IsType::TYPE_ARRAY, $value, 'Must be an array');
-    }
-
     /**
      * Asserts that value(s) is empty array.
      *
@@ -66,7 +24,7 @@ trait AdditionalAssertionsTrait
      *
      * @return void
      */
-    public static function assertEmptyArray($value)
+    public static function assertEmptyArray($value): void
     {
         static::assertIsArray($value);
         static::assertEmpty($value);
@@ -82,25 +40,10 @@ trait AdditionalAssertionsTrait
      *
      * @return void
      */
-    public static function assertNotEmptyArray($value)
+    public static function assertNotEmptyArray($value): void
     {
         static::assertIsArray($value);
         static::assertNotEmpty($value);
-    }
-
-    /**
-     * Asserts that value(s) is string.
-     *
-     * @param mixed|string $value
-     *
-     * @throws AssertionFailedError
-     * @throws InvalidArgumentException
-     *
-     * @return void
-     */
-    public static function assertIsString($value)
-    {
-        static::assertInternalType(IsType::TYPE_STRING, $value, 'Must be type of string');
     }
 
     /**
@@ -113,7 +56,7 @@ trait AdditionalAssertionsTrait
      *
      * @return void
      */
-    public static function assertEmptyString($values)
+    public static function assertEmptyString($values): void
     {
         $values = \is_array($values) && $values !== []
             ? $values
@@ -135,7 +78,7 @@ trait AdditionalAssertionsTrait
      *
      * @return void
      */
-    public static function assertNotEmptyString($values)
+    public static function assertNotEmptyString($values): void
     {
         $values = \is_array($values) && $values !== []
             ? $values
@@ -154,18 +97,18 @@ trait AdditionalAssertionsTrait
      *
      * @param mixed|string $expected
      * @param mixed|string $actual
-     * @param bool         $ignore_case
+     * @param bool $ignore_case
      *
      * @throws AssertionFailedError
      * @throws InvalidArgumentException
      *
      * @return void
      */
-    public static function assertStringsEquals($expected, $actual, $ignore_case = true)
+    public static function assertStringsEquals($expected, $actual, $ignore_case = true): void
     {
         if ($ignore_case === true) {
             $expected = \mb_strtolower($expected, 'UTF-8');
-            $actual   = \mb_strtolower($actual, 'UTF-8');
+            $actual = \mb_strtolower($actual, 'UTF-8');
         }
 
         static::assertEquals($expected, $actual, "String {$actual} does not equals {$expected}");
@@ -176,18 +119,18 @@ trait AdditionalAssertionsTrait
      *
      * @param mixed|string $expected
      * @param mixed|string $actual
-     * @param bool         $ignore_case
+     * @param bool $ignore_case
      *
      * @throws AssertionFailedError
      * @throws InvalidArgumentException
      *
      * @return void
      */
-    public static function assertStringsNotEquals($expected, $actual, $ignore_case = true)
+    public static function assertStringsNotEquals($expected, $actual, $ignore_case = true): void
     {
         if ($ignore_case === true) {
             $expected = \mb_strtolower($expected, 'UTF-8');
-            $actual   = \mb_strtolower($actual, 'UTF-8');
+            $actual = \mb_strtolower($actual, 'UTF-8');
         }
 
         static::assertNotEquals($expected, $actual, "String equals ({$actual})");
@@ -197,16 +140,16 @@ trait AdditionalAssertionsTrait
      * Asserts that passed class or interface name(s) are presents.
      *
      * @param string|string[] $class_names
-     * @param bool            $include_interfaces
+     * @param bool $include_interfaces
      *
      * @throws InvalidArgumentException
      * @throws ExpectationFailedException
      *
      * @return void
      */
-    public static function assertClassExists($class_names, $include_interfaces = true)
+    public static function assertClassExists($class_names, $include_interfaces = true): void
     {
-        foreach ((array) $class_names as $class_name) {
+        foreach ((array)$class_names as $class_name) {
             static::assertTrue(
                 $include_interfaces === true
                     ? \class_exists($class_name) || \interface_exists($class_name)
@@ -219,7 +162,7 @@ trait AdditionalAssertionsTrait
     /**
      * Asserts that the class method(s) exists.
      *
-     * @param object|string   $object_or_class_name
+     * @param object|string $object_or_class_name
      * @param string|string[] $expected_methods
      *
      * @throws ExpectationFailedException
@@ -227,9 +170,9 @@ trait AdditionalAssertionsTrait
      *
      * @return void
      */
-    public static function assertHasMethods($object_or_class_name, $expected_methods)
+    public static function assertHasMethods($object_or_class_name, $expected_methods): void
     {
-        foreach ((array) $expected_methods as $method_name) {
+        foreach ((array)$expected_methods as $method_name) {
             static::assertTrue(
                 \method_exists($object_or_class_name, $method_name), "Has no method named {$method_name}"
             );
@@ -239,7 +182,7 @@ trait AdditionalAssertionsTrait
     /**
      * Asserts that passed class uses expected traits.
      *
-     * @param string          $class
+     * @param string $class
      * @param string|string[] $expected_traits
      *
      * @throws ExpectationFailedException
@@ -247,7 +190,7 @@ trait AdditionalAssertionsTrait
      *
      * @return void
      */
-    public static function assertClassUsesTraits($class, $expected_traits)
+    public static function assertClassUsesTraits($class, $expected_traits): void
     {
         /**
          * Returns all traits used by a trait and its traits.
@@ -259,9 +202,12 @@ trait AdditionalAssertionsTrait
         $trait_uses_recursive = function ($trait) use (&$trait_uses_recursive) {
             $traits = \class_uses($trait);
 
+            $tt = [[]];
             foreach ($traits as $trait_iterate) {
-                $traits += $trait_uses_recursive($trait_iterate);
+                $tt[] = $trait_uses_recursive($trait_iterate);
             }
+
+            $traits = \array_merge($traits, ...$tt);
 
             return $traits;
         };
@@ -278,18 +224,18 @@ trait AdditionalAssertionsTrait
                 $class = \get_class($class);
             }
 
-            $results = [];
+            $results = [[]];
 
             foreach (\array_reverse(\class_parents($class)) + [$class => $class] as $class_iterate) {
-                $results += $trait_uses_recursive($class_iterate);
+                $results[] = $trait_uses_recursive($class_iterate);
             }
 
-            return \array_values(\array_unique($results));
+            return \array_values(\array_merge(...$results));
         };
 
         $uses = $class_uses_recursive($class);
 
-        foreach ((array) $expected_traits as $trait_class) {
+        foreach ((array)$expected_traits as $trait_class) {
             static::assertContains($trait_class, $uses);
         }
     }
@@ -302,7 +248,7 @@ trait AdditionalAssertionsTrait
      *
      * @throws InvalidArgumentException
      */
-    public static function assertArrayStructure($structure, $testing_array)
+    public static function assertArrayStructure($structure, $testing_array): void
     {
         foreach ($structure as $key => $value) {
             if (\is_array($value)) {

@@ -2,12 +2,16 @@
 
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use Illuminate\Filesystem\Filesystem;
-use PHPUnit\Framework\AssertionFailedError;
-use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelLogFilesAssertsTrait;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
+use PHPUnit\Framework\AssertionFailedError;
 
+/**
+ * Class LaravelLogFilesAssertsTraitTest
+ * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
 {
     use CreatesApplicationTrait;
@@ -28,15 +32,15 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        if (! ($this->files instanceof Filesystem)) {
+        if (!($this->files instanceof Filesystem)) {
             $this->files = new Filesystem;
         }
 
-        if (! $this->files->isDirectory($deep = $this->temp_logs_path)) {
+        if (!$this->files->isDirectory($deep = $this->temp_logs_path)) {
             $this->files->makeDirectory($deep, 0755, true);
         }
     }
@@ -44,7 +48,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
     /**
      * {@inheritdoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->files->exists($this->temp_logs_path)) {
             $this->files->deleteDirectory($this->temp_logs_path);
@@ -74,12 +78,13 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
      *
      * @return void
      */
-    public function testClearLogs()
+    public function testClearLogs(): void
     {
         /**
          * This instance will create temp directory, put some files inside her, and works with it.
          */
-        $test_class = new class extends IlluminateTestCase {
+        $test_class = new class extends IlluminateTestCase
+        {
             use CreatesApplicationTrait,
                 LaravelLogFilesAssertsTrait;
 
@@ -91,11 +96,11 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
 
                 $files = new Filesystem;
 
-                if (! $files->isDirectory($deep = $this->temp_logs_path . '/baz')) {
+                if (!$files->isDirectory($deep = $this->temp_logs_path . '/baz')) {
                     $files->makeDirectory($deep, 0755, true);
                 }
 
-                if (! $files->isDirectory($hidden_deep = $this->temp_logs_path . '/.hidden_dir')) {
+                if (!$files->isDirectory($hidden_deep = $this->temp_logs_path . '/.hidden_dir')) {
                     $files->makeDirectory($hidden_deep, 0755, true);
                 }
 
@@ -107,29 +112,29 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
                 $files->put($hidden_deep . '/.foo', 'baz');
             }
 
-            public function getDefaultLogsDirectoryPath()
+            public function getDefaultLogsDirectoryPath():string
             {
                 return $this->temp_logs_path;
             }
         };
 
-        $this->assertStringEqualsFile($laravel_log = $this->temp_logs_path . '/laravel.log', 'foo');
-        $this->assertStringEqualsFile($test_log = $this->temp_logs_path . '/test.log', 'bar');
-        $this->assertStringEqualsFile($deep_log = $this->temp_logs_path . '/baz/deep.log', 'foo bar');
-        $this->assertStringEqualsFile($hidden_file = $this->temp_logs_path . '/.hidden', 'bar');
-        $this->assertStringEqualsFile($hidden_deep = $this->temp_logs_path . '/.hidden_dir/.foo', 'baz');
+        static::assertStringEqualsFile($laravel_log = $this->temp_logs_path . '/laravel.log', 'foo');
+        static::assertStringEqualsFile($test_log = $this->temp_logs_path . '/test.log', 'bar');
+        static::assertStringEqualsFile($deep_log = $this->temp_logs_path . '/baz/deep.log', 'foo bar');
+        static::assertStringEqualsFile($hidden_file = $this->temp_logs_path . '/.hidden', 'bar');
+        static::assertStringEqualsFile($hidden_deep = $this->temp_logs_path . '/.hidden_dir/.foo', 'baz');
 
         $test_class->clearLaravelLogs(); // Execute
 
         foreach ([$laravel_log, $test_log, $deep_log] as $file_path) {
-            $this->assertFileNotExists($file_path);
+            static::assertFileNotExists($file_path);
         }
 
         foreach ([$hidden_file, $hidden_deep] as $file_path) {
-            $this->assertFileExists($file_path);
+            static::assertFileExists($file_path);
         }
 
-        $this->assertDirectoryExists($this->temp_logs_path);
+        static::assertDirectoryExists($this->temp_logs_path);
 
         $this->files->delete($hidden_file);
         $this->files->delete($hidden_deep);
@@ -141,7 +146,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
      *
      * @return void
      */
-    public function testGetLogFilesContentGetters()
+    public function testGetLogFilesContentGetters(): void
     {
         $this->files->put(
             $this->temp_logs_path . ($file_path1 = '/foo.log'), $content1 = "\n\r\n\n\rfoo\nbar\nbaz\n   \n"
@@ -151,20 +156,20 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
             $this->temp_logs_path . ($file_path2 = '/bar/baz.log'), $content2 = "\r\nfoo bar \rbaz\nbar"
         );
 
-        $this->assertEquals($content1, $this->getLogFileContent($file_path1));
-        $this->assertEquals($content2, $this->getLogFileContent($file_path2));
+        static::assertEquals($content1, $this->getLogFileContent($file_path1));
+        static::assertEquals($content2, $this->getLogFileContent($file_path2));
         $content_as_array1 = $this->getLogFileContentAsArray($file_path1);
         $content_as_array2 = $this->getLogFileContentAsArray($file_path2, 2);
 
-        $this->assertCount(4, $content_as_array1);
-        $this->assertEquals('foo', $content_as_array1[0]);
-        $this->assertEquals('bar', $content_as_array1[1]);
-        $this->assertEquals('baz', $content_as_array1[2]);
-        $this->assertEquals('   ', $content_as_array1[3]);
+        static::assertCount(4, $content_as_array1);
+        static::assertEquals('foo', $content_as_array1[0]);
+        static::assertEquals('bar', $content_as_array1[1]);
+        static::assertEquals('baz', $content_as_array1[2]);
+        static::assertEquals('   ', $content_as_array1[3]);
 
-        $this->assertCount(2, $content_as_array2);
-        $this->assertEquals('baz', $content_as_array2[0]);
-        $this->assertEquals('bar', $content_as_array2[1]);
+        static::assertCount(2, $content_as_array2);
+        static::assertEquals('baz', $content_as_array2[0]);
+        static::assertEquals('bar', $content_as_array2[1]);
     }
 
     /**
@@ -172,11 +177,11 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
      *
      * @return void
      */
-    public function testVendorGetDefaultLogsDirectoryPath()
+    public function testVendorGetDefaultLogsDirectoryPath(): void
     {
-        $this->assertEquals($this->app->storagePath() . '/logs', $this->vendorGetDefaultLogsDirectoryPath());
-        $this->assertEquals($this->app->storagePath() . '/logs/foo', $this->vendorGetDefaultLogsDirectoryPath('foo'));
-        $this->assertEquals($this->app->storagePath() . '/logs/bar',
+        static::assertEquals($this->app->storagePath() . '/logs', $this->vendorGetDefaultLogsDirectoryPath());
+        static::assertEquals($this->app->storagePath() . '/logs/foo', $this->vendorGetDefaultLogsDirectoryPath('foo'));
+        static::assertEquals($this->app->storagePath() . '/logs/bar',
             $this->vendorGetDefaultLogsDirectoryPath('/\\//bar'));
     }
 
@@ -185,7 +190,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
      *
      * @return void
      */
-    public function testAssertLogFileNotContains()
+    public function testAssertLogFileNotContains(): void
     {
         $find = 'hell yeah';
         $this->files->put($this->temp_logs_path . ($file_name = '/foo.log'), "\n{$find}\nfoo\nbar\nbaz\n[foo] bar\n");
@@ -198,7 +203,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
         } catch (AssertionFailedError $e) {
             $throws = true;
         }
-        $this->assertTrue($throws, 'Assert "assertLogFileNotContains" limitation broken');
+        static::assertTrue($throws, 'Assert "assertLogFileNotContains" limitation broken');
 
         $throws = false;
         try {
@@ -206,7 +211,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
         } catch (AssertionFailedError $e) {
             $throws = true;
         }
-        $this->assertTrue($throws, 'Assert "assertLogFileNotContains" broken');
+        static::assertTrue($throws, 'Assert "assertLogFileNotContains" broken');
     }
 
     /**
@@ -214,7 +219,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
      *
      * @return void
      */
-    public function testAssertLogFileContains()
+    public function testAssertLogFileContains(): void
     {
         $find = 'hell yeah';
         $this->files->put($this->temp_logs_path . ($file_name = '/foo.log'), "\n{$find}\nfoo\nbar\nbaz\n[foo] bar\n");
@@ -228,7 +233,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
         } catch (AssertionFailedError $e) {
             $throws = true;
         }
-        $this->assertTrue($throws, 'Assert "assertLogFileContains" limitation broken');
+        static::assertTrue($throws, 'Assert "assertLogFileContains" limitation broken');
 
         $throws = false;
         try {
@@ -236,7 +241,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
         } catch (AssertionFailedError $e) {
             $throws = true;
         }
-        $this->assertTrue($throws, 'Assert "assertLogFileContains" broken');
+        static::assertTrue($throws, 'Assert "assertLogFileContains" broken');
     }
 
     /**
@@ -244,7 +249,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
      *
      * @return void
      */
-    public function testAssertLogFileExists()
+    public function testAssertLogFileExists(): void
     {
         $this->files->put($this->temp_logs_path . ($file_name = '/foo.log'), null);
         $this->assertLogFileExists($file_name);
@@ -258,7 +263,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
         } catch (AssertionFailedError $e) {
             $throws = true;
         }
-        $this->assertTrue($throws);
+        static::assertTrue($throws);
 
         $throws = false;
         try {
@@ -267,6 +272,6 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
         } catch (AssertionFailedError $e) {
             $throws = true;
         }
-        $this->assertTrue($throws);
+        static::assertTrue($throws);
     }
 }

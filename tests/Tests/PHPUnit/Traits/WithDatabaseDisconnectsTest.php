@@ -2,11 +2,15 @@
 
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use Illuminate\Database\Connection;
-use Illuminate\Config\Repository as ConfigRepository;
 use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\WithDatabaseDisconnects;
+use Illuminate\Config\Repository as ConfigRepository;
+use Illuminate\Database\Connection;
 
+/**
+ * Class WithDatabaseDisconnectsTest
+ * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 class WithDatabaseDisconnectsTest extends AbstractLaravelTestCase
 {
     use WithDatabaseDisconnects;
@@ -14,7 +18,7 @@ class WithDatabaseDisconnectsTest extends AbstractLaravelTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -23,9 +27,9 @@ class WithDatabaseDisconnectsTest extends AbstractLaravelTestCase
 
         $config->set('database.default', 'sqlite');
         $config->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
 
         $this->app->make('db')->reconnect();
@@ -36,16 +40,16 @@ class WithDatabaseDisconnectsTest extends AbstractLaravelTestCase
      *
      * @return void
      */
-    public function testDisconnectFromAllDatabaseConnections()
+    public function testDisconnectFromAllDatabaseConnections(): void
     {
-        $this->assertTrue(
+        static::assertTrue(
             $this->app->make('db')->connection()->unprepared(
                 $sql = 'SELECT name FROM sqlite_master WHERE type = "table"')
         );
 
-        $this->assertTrue($this->databaseHasActiveConnections());
-        $this->assertTrue($this->disconnectFromAllDatabaseConnections($this->app));
-        $this->assertFalse($this->databaseHasActiveConnections());
+        static::assertTrue($this->databaseHasActiveConnections());
+        static::assertTrue($this->disconnectFromAllDatabaseConnections($this->app));
+        static::assertFalse($this->databaseHasActiveConnections());
     }
 
     /**
@@ -53,22 +57,23 @@ class WithDatabaseDisconnectsTest extends AbstractLaravelTestCase
      *
      * @return void
      */
-    public function testDisconnectFromAllDatabaseConnectionsWithoutPassingApp()
+    public function testDisconnectFromAllDatabaseConnectionsWithoutPassingApp(): void
     {
-        $this->assertTrue($this->databaseHasActiveConnections());
-        $this->assertTrue($this->disconnectFromAllDatabaseConnections());
-        $this->assertFalse($this->databaseHasActiveConnections());
+        static::assertTrue($this->databaseHasActiveConnections());
+        static::assertTrue($this->disconnectFromAllDatabaseConnections());
+        static::assertFalse($this->databaseHasActiveConnections());
     }
 
     /**
      * Test closure registration.
      *
      * @return void
+     * @throws \Exception
      */
-    public function testClosureRegistration()
+    public function testClosureRegistration(): void
     {
         $closure_hash = static::getClosureHash($this->databaseDisconnectsClosureFactory());
-        $found        = false;
+        $found = false;
 
         foreach ($this->beforeApplicationDestroyedCallbacks as $callback) {
             if (static::getClosureHash($callback) === $closure_hash) {
@@ -78,7 +83,7 @@ class WithDatabaseDisconnectsTest extends AbstractLaravelTestCase
             }
         }
 
-        $this->assertTrue($found, 'Closure is not registered on application destroyed');
+        static::assertTrue($found, 'Closure is not registered on application destroyed');
     }
 
     /**

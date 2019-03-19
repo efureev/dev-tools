@@ -7,6 +7,10 @@ namespace AvtoDev\DevTools\Laravel\VarDumper;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
+/**
+ * Class ServiceProvider
+ * @package AvtoDev\DevTools\Laravel\VarDumper
+ */
 class ServiceProvider extends IlluminateServiceProvider
 {
     /**
@@ -14,7 +18,7 @@ class ServiceProvider extends IlluminateServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->app->make(Kernel::class)->pushMiddleware(VarDumperMiddleware::class);
     }
@@ -24,7 +28,7 @@ class ServiceProvider extends IlluminateServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(DumpStackInterface::class, DumpStack::class);
     }

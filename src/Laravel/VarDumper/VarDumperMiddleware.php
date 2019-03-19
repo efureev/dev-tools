@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Laravel\VarDumper;
 
@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
+ * Class VarDumperMiddleware
+ * @package AvtoDev\DevTools\Laravel\VarDumper
  * @link https://laravel.com/docs/5.5/middleware#defining-middleware Before & After Middleware
  */
 class VarDumperMiddleware

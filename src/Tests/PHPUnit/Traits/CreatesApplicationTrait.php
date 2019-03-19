@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use Illuminate\Foundation\Application;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Foundation\Application;
 
+/**
+ * Trait CreatesApplicationTrait
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 trait CreatesApplicationTrait
 {
     /**
@@ -32,9 +36,9 @@ trait CreatesApplicationTrait
      *
      * @return Application
      */
-    public function createApplication()
+    public function createApplication(): Application
     {
-        foreach ((array) $this->getApplicationBootstrapFiles() as $path) {
+        foreach ((array)$this->getApplicationBootstrapFiles() as $path) {
             if (\file_exists($path)) {
                 /** @var Application $app */
                 $app = require $path;

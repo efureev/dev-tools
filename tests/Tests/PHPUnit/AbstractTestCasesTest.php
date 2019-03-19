@@ -2,15 +2,19 @@
 
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit;
 
-use Tests\AvtoDev\DevTools\AbstractTestCase;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\AdditionalAssertionsTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CarbonAssertionsTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\InstancesAccessorsTrait;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\AdditionalAssertionsTrait;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelLogFilesAssertsTrait;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelEventsAssertionsTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelCommandsAssertionsTrait;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelEventsAssertionsTrait;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelLogFilesAssertsTrait;
+use Tests\AvtoDev\DevTools\AbstractTestCase;
 
+/**
+ * Class AbstractTestCasesTest
+ * @package Tests\AvtoDev\DevTools\Tests\PHPUnit
+ */
 class AbstractTestCasesTest extends AbstractTestCase
 {
     use AdditionalAssertionsTrait;
@@ -19,14 +23,15 @@ class AbstractTestCasesTest extends AbstractTestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testAbstractTestCase()
+    public function testAbstractTestCase(): void
     {
-        $instance = new class extends \AvtoDev\DevTools\Tests\PHPUnit\AbstractTestCase {
+        $instance = new class extends \AvtoDev\DevTools\Tests\PHPUnit\AbstractTestCase
+        {
         };
 
-        $this->assertInstanceOf(\PHPUnit\Framework\TestCase::class, $instance);
+        static::assertInstanceOf(\PHPUnit\Framework\TestCase::class, $instance);
 
-        $this->assertClassUsesTraits($instance, [
+        static::assertClassUsesTraits($instance, [
             AdditionalAssertionsTrait::class,
             InstancesAccessorsTrait::class,
             CarbonAssertionsTrait::class,
@@ -37,16 +42,17 @@ class AbstractTestCasesTest extends AbstractTestCase
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testAbstractLaravelTestCase()
+    public function testAbstractLaravelTestCase(): void
     {
-        $instance = new class extends \AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase {
+        $instance = new class extends \AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase
+        {
             use CreatesApplicationTrait;
         };
 
-        $this->assertInstanceOf(\PHPUnit\Framework\TestCase::class, $instance);
-        $this->assertInstanceOf(\Illuminate\Foundation\Testing\TestCase::class, $instance);
+        static::assertInstanceOf(\PHPUnit\Framework\TestCase::class, $instance);
+        static::assertInstanceOf(\Illuminate\Foundation\Testing\TestCase::class, $instance);
 
-        $this->assertClassUsesTraits($instance, [
+        static::assertClassUsesTraits($instance, [
             AdditionalAssertionsTrait::class,
             InstancesAccessorsTrait::class,
             CreatesApplicationTrait::class,

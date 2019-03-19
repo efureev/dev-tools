@@ -15,7 +15,7 @@ class CarbonAssertionsTraitTest extends AbstractTestCase
      *
      * @return void
      */
-    public function testAssertCarbonParseEqualsPositive()
+    public function testAssertCarbonParseEqualsPositive():void
     {
         $dt_sec = \DateTime::createFromFormat('j-M-Y H:i:s', '15-Feb-2009 00:00:00');
         $dt     = \DateTime::createFromFormat('j-M-Y', '15-Feb-2009');
@@ -36,21 +36,21 @@ class CarbonAssertionsTraitTest extends AbstractTestCase
      *
      * @return void
      */
-    public function testAssertCarbonParseEqualsNegative()
+    public function testAssertCarbonParseEqualsNegative():void
     {
-        $this->assertTrue($this->assertAssertationInsideClosureFailed(function () {
+        static::assertTrue($this->assertAssertationInsideClosureFailed(function () {
             $dt = \DateTime::createFromFormat('j-M-Y', '15-Feb-2009');
 
             static::assertCarbonParseEquals($dt->format('Y-m-d'), $dt);
         }));
 
-        $this->assertTrue($this->assertAssertationInsideClosureFailed(function () {
+        static::assertTrue($this->assertAssertationInsideClosureFailed(function () {
             $now = Carbon::now();
 
             static::assertCarbonParseEquals($now->format('Y-m-d'), $now);
         }));
 
-        $this->assertTrue($this->assertAssertationInsideClosureFailed(function () {
+        static::assertTrue($this->assertAssertationInsideClosureFailed(function () {
             $now = Carbon::now();
 
             static::assertCarbonParseEquals($now->format('Y-m-d'), (clone $now)->addDays(10), true);

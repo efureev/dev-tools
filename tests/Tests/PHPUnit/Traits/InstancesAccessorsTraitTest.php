@@ -2,12 +2,16 @@
 
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use Tests\AvtoDev\DevTools\AbstractTestCase;
-use PHPUnit\Framework\ExpectationFailedException;
 use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\InstancesAccessorsTrait;
+use PHPUnit\Framework\ExpectationFailedException;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use Tests\AvtoDev\DevTools\AbstractTestCase;
 
+/**
+ * Class InstancesAccessorsTraitTest
+ * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 class InstancesAccessorsTraitTest extends AbstractTestCase
 {
     use InstancesAccessorsTrait;
@@ -19,9 +23,10 @@ class InstancesAccessorsTraitTest extends AbstractTestCase
      *
      * @return void
      */
-    public function testsTraitAsserts()
+    public function testsTraitAsserts(): void
     {
-        $instance             = new class {
+        $instance = new class
+        {
             private $property = 'foo';
 
             private function method()
@@ -30,36 +35,38 @@ class InstancesAccessorsTraitTest extends AbstractTestCase
             }
         };
 
-        $this->assertEquals('foo', $this->getProperty($instance, 'property'));
-        $this->assertEquals('bar', $this->callMethod($instance, 'method'));
+        static::assertEquals('foo', static::getProperty($instance, 'property'));
+        static::assertEquals('bar', static::callMethod($instance, 'method'));
     }
 
     /**
      * @return void
+     * @throws \Exception
      */
-    public function testGetClosureHash()
+    public function testGetClosureHash(): void
     {
         $test_cases = [
             function () {
             },
             function () {
-                return new class extends AbstractLaravelTestCase {
+                return new class extends AbstractLaravelTestCase
+                {
                 };
             },
             function () {
-                $this->resetCount();
+                static::resetCount();
             },
         ];
 
-        $this->assertNotEmpty($test_cases);
+        static::assertNotEmpty($test_cases);
 
         foreach ($test_cases as $test_case) {
-            $hash = $this->getClosureHash($test_case);
+            $hash = static::getClosureHash($test_case);
 
-            $this->assertGreaterThanOrEqual(8, \mb_strlen($hash));
+            static::assertGreaterThanOrEqual(8, \mb_strlen($hash));
 
             // Second call for a closure
-            $this->assertEquals($hash, $this->getClosureHash($test_case));
+            static::assertEquals($hash, static::getClosureHash($test_case));
         }
     }
 }

@@ -17,3 +17,4 @@ composer.lock
 .DS_Store
 .php_cs.cache
 clover-file
+.phpunit.result.cache

@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use Psr\Log\LoggerInterface;
-use Illuminate\Database\Events\QueryExecuted;
 use AvtoDev\DevTools\Laravel\DatabaseQueriesLogger\QueryExecutedEventsListener;
+use Illuminate\Database\Events\QueryExecuted;
+use Psr\Log\LoggerInterface;
 
+/**
+ * Trait WithDatabaseQueriesLogging
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 trait WithDatabaseQueriesLogging
 {
     /**
@@ -25,7 +29,7 @@ trait WithDatabaseQueriesLogging
      *
      * @throws \Exception
      */
-    public function enableDatabaseQueriesLogging()
+    public function enableDatabaseQueriesLogging(): void
     {
         $this->afterApplicationCreated(function () {
             $this->app->make('events')->listen(QueryExecuted::class, function (QueryExecuted $event) {

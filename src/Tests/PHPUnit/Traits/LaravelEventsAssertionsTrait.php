@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use ReflectionFunction;
-use ReflectionException;
 use PHPUnit\Framework\ExpectationFailedException;
+use ReflectionException;
+use ReflectionFunction;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
+/**
+ * Trait LaravelEventsAssertionsTrait
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 trait LaravelEventsAssertionsTrait
 {
     /**
@@ -23,13 +27,13 @@ trait LaravelEventsAssertionsTrait
      *
      * @return array
      */
-    public static function getEventListenersClasses($event_abstract)
+    public static function getEventListenersClasses($event_abstract): array
     {
         $result = [];
 
         foreach (\Illuminate\Support\Facades\Event::getListeners($event_abstract) as $listener_closure) {
             $reflection = new ReflectionFunction($listener_closure);
-            $uses       = $reflection->getStaticVariables();
+            $uses = $reflection->getStaticVariables();
 
             if (isset($uses['listener'])) {
                 $result[] = $uses['listener'];
@@ -46,13 +50,13 @@ trait LaravelEventsAssertionsTrait
      * @see https://laravel.com/docs/5.5/events
      *
      * @param string|object|mixed $event_abstract
-     * @param string|object       $listener_class
+     * @param string|object $listener_class
      *
      * @throws ExpectationFailedException
      * @throws ReflectionException
      * @throws InvalidArgumentException
      */
-    public static function assertEventHasListener($event_abstract, $listener_class)
+    public static function assertEventHasListener($event_abstract, $listener_class): void
     {
         if (\is_object($listener_class)) {
             $listener_class = \get_class($listener_class);
@@ -72,13 +76,13 @@ trait LaravelEventsAssertionsTrait
      * @see https://laravel.com/docs/5.5/events
      *
      * @param string|object|mixed $event_abstract
-     * @param string|object       $listener_class
+     * @param string|object $listener_class
      *
      * @throws ExpectationFailedException
      * @throws ReflectionException
      * @throws InvalidArgumentException
      */
-    public static function assertEventHasNoListener($event_abstract, $listener_class)
+    public static function assertEventHasNoListener($event_abstract, $listener_class): void
     {
         if (\is_object($listener_class)) {
             $listener_class = \get_class($listener_class);

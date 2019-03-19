@@ -2,9 +2,13 @@
 
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use Tests\AvtoDev\DevTools\AbstractTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
+use Tests\AvtoDev\DevTools\AbstractTestCase;
 
+/**
+ * Class AppVersionAssertionsTraitTest
+ * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ */
 class AppVersionAssertionsTraitTest extends AbstractTestCase
 {
     /**
@@ -12,9 +16,10 @@ class AppVersionAssertionsTraitTest extends AbstractTestCase
      *
      * @return void
      */
-    public function testWithKeepChangelogFormat()
+    public function testWithKeepChangelogFormat(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase {
+        $instance = new class extends \PHPUnit\Framework\TestCase
+        {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string
@@ -193,9 +198,10 @@ EOF;
      *
      * @return void
      */
-    public function testWithShortChangelogFormat()
+    public function testWithShortChangelogFormat(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase {
+        $instance = new class extends \PHPUnit\Framework\TestCase
+        {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string
@@ -254,9 +260,10 @@ EOF;
      *
      * @return void
      */
-    public function testWithLongVersionsParts()
+    public function testWithLongVersionsParts(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase {
+        $instance = new class extends \PHPUnit\Framework\TestCase
+        {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string
@@ -297,9 +304,10 @@ EOF;
      *
      * @return void
      */
-    public function testWithInvalidData()
+    public function testWithInvalidData(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase {
+        $instance = new class extends \PHPUnit\Framework\TestCase
+        {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string
@@ -331,20 +339,21 @@ EOF;
         try {
             $instance->assertAppVersionAndVersionInChangeLogIsEquals();
         } catch (ExpectationFailedException $e) {
-            $this->assertRegExp('~Application version.*\\d\\.\\d\\.\\d.*\\d\\.\\d\\.\\d.*not equals~', $e->getMessage());
+            static::assertRegExp('~Application version.*\\d\\.\\d\\.\\d.*\\d\\.\\d\\.\\d.*not equals~', $e->getMessage());
 
             $caught = true;
         }
 
-        $this->assertTrue($caught);
+        static::assertTrue($caught);
     }
 
     /**
      * @return void
      */
-    public function testGetChangeLogFileContent()
+    public function testGetChangeLogFileContent(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase {
+        $instance = new class extends \PHPUnit\Framework\TestCase
+        {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string
@@ -358,6 +367,6 @@ EOF;
             }
         };
 
-        $this->assertSame('# CHANGELOG.md stub content' . PHP_EOL, $instance->getChangeLogFileContent());
+        static::assertSame('# CHANGELOG.md stub content' . PHP_EOL, $instance->getChangeLogFileContent());
     }
 }

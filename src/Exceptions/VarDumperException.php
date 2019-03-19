@@ -1,20 +1,24 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AvtoDev\DevTools\Exceptions;
 
-use Throwable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
+/**
+ * Class VarDumperException
+ * @package AvtoDev\DevTools\Exceptions
+ */
 class VarDumperException extends \Exception
 {
     /**
      * VarDumperException constructor.
      *
-     * @param string         $message
-     * @param int            $code
+     * @param string $message
+     * @param int $code
      * @param Throwable|null $previous
      */
     public function __construct(string $message,
@@ -33,7 +37,7 @@ class VarDumperException extends \Exception
      *
      * @return void
      */
-    public function report()
+    public function report(): void
     {
         // Do nothing
     }
@@ -61,11 +65,11 @@ class VarDumperException extends \Exception
      *
      * @return string
      */
-    protected static function generateView($content):string
+    protected static function generateView($content): string
     {
         return <<<EOT
-<html>
-    <head></head>
+<html lang="en">
+    <head><title>Title</title></head>
     <body>
         $content
     </body>

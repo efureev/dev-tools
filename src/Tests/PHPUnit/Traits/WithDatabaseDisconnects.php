@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
 use Closure;
-use Illuminate\Database\Connection;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Connection;
 
 /**
+ * Trait WithDatabaseDisconnects
+ * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
  * @link https://www.neontsunami.com/posts/too-many-connections-using-phpunit-for-testing-laravel-51
  */
 trait WithDatabaseDisconnects
@@ -47,7 +49,7 @@ trait WithDatabaseDisconnects
      *
      * @return void
      */
-    public function enableDatabaseDisconnects()
+    public function enableDatabaseDisconnects(): void
     {
         $this->beforeApplicationDestroyed($this->databaseDisconnectsClosureFactory());
     }

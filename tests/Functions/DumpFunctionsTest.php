@@ -1,14 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Tests\AvtoDev\DevTools\Functions;
 
 use AvtoDev\DevTools\Exceptions\VarDumperException;
-use AvtoDev\DevTools\Laravel\VarDumper\ServiceProvider;
 use AvtoDev\DevTools\Laravel\VarDumper\DumpStackInterface;
+use AvtoDev\DevTools\Laravel\VarDumper\ServiceProvider;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 
+/**
+ * Class DumpFunctionsTest
+ * @package Tests\AvtoDev\DevTools\Functions
+ */
 class DumpFunctionsTest extends \Illuminate\Foundation\Testing\TestCase
 {
     use CreatesApplicationTrait;
@@ -16,7 +20,7 @@ class DumpFunctionsTest extends \Illuminate\Foundation\Testing\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -31,36 +35,38 @@ class DumpFunctionsTest extends \Illuminate\Foundation\Testing\TestCase
     /**
      * @return void
      */
-    public function testRanUsingCliFunction()
+    public function testRanUsingCliFunction(): void
     {
-        $this->assertTrue(\function_exists('\\dev\\ran_using_cli'));
+        static::assertTrue(\function_exists('\\dev\\ran_using_cli'));
 
-        $this->assertTrue(\dev\ran_using_cli());
+        static::assertTrue(\dev\ran_using_cli());
 
         // Detect running under RoadRunner (since RR v1.2.1)
         \putenv('RR_HTTP=true');
-        $this->assertFalse(\dev\ran_using_cli());
+        static::assertFalse(\dev\ran_using_cli());
         \putenv('RR_HTTP=');
 
         $_SERVER['DEV_DUMP_CLI_MODE'] = true;
-        $this->assertTrue(\dev\ran_using_cli());
+        static::assertTrue(\dev\ran_using_cli());
 
         $_SERVER['DEV_DUMP_CLI_MODE'] = false;
-        $this->assertFalse(\dev\ran_using_cli());
+        static::assertFalse(\dev\ran_using_cli());
     }
 
     /**
      * @return void
      */
-    public function testDdFunctionExists()
+    public function testDdFunctionExists(): void
     {
-        $this->assertTrue(\function_exists('\\dev\\dd'));
+        static::assertTrue(\function_exists('\\dev\\dd'));
     }
 
     /**
      * @return void
+     * @throws VarDumperException
+     * @throws \Exception
      */
-    public function testDdFunctionThrowAnExceptionInNonCliMode()
+    public function testDdFunctionThrowAnExceptionInNonCliMode(): void
     {
         $value1 = 'foo_' . \random_int(1, 255);
         $value2 = 'bar_' . \random_int(1, 255);
@@ -76,15 +82,16 @@ class DumpFunctionsTest extends \Illuminate\Foundation\Testing\TestCase
     /**
      * @return void
      */
-    public function testDumpFunctionExists()
+    public function testDumpFunctionExists(): void
     {
-        $this->assertTrue(\function_exists('\\dev\\dump'));
+        static::assertTrue(\function_exists('\\dev\\dump'));
     }
 
     /**
      * @return void
+     * @throws \Exception
      */
-    public function testDumpFunctionPushIntoStackInNonCliMode()
+    public function testDumpFunctionPushIntoStackInNonCliMode(): void
     {
         $_SERVER['DEV_DUMP_CLI_MODE'] = false;
 
@@ -93,8 +100,8 @@ class DumpFunctionsTest extends \Illuminate\Foundation\Testing\TestCase
 
         \dev\dump($value1 = 'foo_' . \random_int(1, 255), $value2 = 'bar_' . \random_int(1, 255));
 
-        $this->assertCount(2, $stack);
-        $this->assertRegExp("~${value1}~s", $stack->all()[0]);
-        $this->assertRegExp("~${value2}~s", $stack->all()[1]);
+        static::assertCount(2, $stack);
+        static::assertRegExp("~${value1}~s", $stack->all()[0]);
+        static::assertRegExp("~${value2}~s", $stack->all()[1]);
     }
 }

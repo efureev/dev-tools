@@ -2,18 +2,20 @@
 
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\InstancesAccessorsTrait;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelCommandsAssertionsTrait;
+use Illuminate\Console\Application as ArtisanApplication;
 use Illuminate\Foundation\Application;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\ExpectationFailedException;
-use Illuminate\Console\Application as ArtisanApplication;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\InstancesAccessorsTrait;
 use Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits\Stubs\SignatureCommand;
 use Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits\Stubs\StructureCommand;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelCommandsAssertionsTrait;
 
 /**
+ * Class LaravelCommandsAssertionsTraitTest
+ * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
  * @coversDefaultClass \AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelCommandsAssertionsTrait
  */
 class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\TestCase
@@ -37,7 +39,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->signature_command = resolve(SignatureCommand::class);
@@ -50,7 +52,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      * @throws InvalidArgumentException
      * @covers ::assertArtisanCommandExists
      */
-    public function testAssertArtisanCommandExists()
+    public function testAssertArtisanCommandExists(): void
     {
         $this->makeAssertTest(
             'assertArtisanCommandExists',
@@ -74,7 +76,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      * @throws InvalidArgumentException
      * @covers ::assertArtisanCommandHasOption
      */
-    public function testAssertArtisanCommandHasOption()
+    public function testAssertArtisanCommandHasOption(): void
     {
         $this->makeAssertTest(
             'assertArtisanCommandHasOption',
@@ -107,7 +109,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      * @throws InvalidArgumentException
      * @covers ::assertArtisanCommandHasArgument
      */
-    public function testAssertArtisanCommandHasArgument()
+    public function testAssertArtisanCommandHasArgument(): void
     {
         $this->makeAssertTest(
             'assertArtisanCommandHasArgument',
@@ -140,7 +142,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      * @throws InvalidArgumentException
      * @covers ::assertArtisanCommandHasOptionShortcut
      */
-    public function testAssertArtisanCommandHasOptionShortcut()
+    public function testAssertArtisanCommandHasOptionShortcut(): void
     {
         $this->makeAssertTest(
             'assertArtisanCommandHasOptionShortcut',
@@ -173,7 +175,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      * @throws InvalidArgumentException
      * @covers ::assertArtisanCommandShortcutBelongToOption
      */
-    public function testAssertArtisanCommandShortcutBelongToOption()
+    public function testAssertArtisanCommandShortcutBelongToOption(): void
     {
         $this->makeAssertTest(
             'assertArtisanCommandShortcutBelongToOption',
@@ -208,7 +210,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      * @throws InvalidArgumentException
      * @covers ::assertArtisanCommandDescriptionNotEmpty
      */
-    public function testAssertArtisanCommandDescriptionNotEmpty()
+    public function testAssertArtisanCommandDescriptionNotEmpty(): void
     {
         $this->makeAssertTest(
             'assertArtisanCommandDescriptionNotEmpty',
@@ -228,7 +230,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      * @throws InvalidArgumentException
      * @covers ::assertArtisanCommandDescriptionRegExp
      */
-    public function testAssertArtisanCommandDescriptionRegExp()
+    public function testAssertArtisanCommandDescriptionRegExp(): void
     {
         $this->makeAssertTest(
             'assertArtisanCommandDescriptionRegExp',
@@ -250,7 +252,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      *
      * @covers ::buildCommand
      */
-    public function testBuildCommand()
+    public function testBuildCommand(): void
     {
         $commands = [
             'test:signature' => [
@@ -266,7 +268,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
         ];
         foreach ($commands as $command_name => $command_aliases) {
             foreach ($command_aliases as $alias) {
-                $this->assertEquals(
+                static::assertEquals(
                     $command_name,
                     $this->buildCommand($alias)->getName()
                 );
@@ -279,10 +281,10 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
      * etc).
      *
      * @see \AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait::createApplication
-     *
+     * @param Application $app
      * @return void
      */
-    protected function beforeApplicationBootstrapped(Application $app)
+    protected function beforeApplicationBootstrapped(Application $app): void
     {
         ArtisanApplication::starting(function (ArtisanApplication $app) {
             $app->resolveCommands([
@@ -294,16 +296,16 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
 
     /**
      * @param string $method_name
-     * @param array  $valid
-     * @param array  $invalid
-     * @param mixed  ...$args
+     * @param array $valid
+     * @param array $invalid
+     * @param mixed ...$args
      *
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
      *
      * @return void
      */
-    protected function makeAssertTest(string $method_name, array $valid, array $invalid, ...$args)
+    protected function makeAssertTest(string $method_name, array $valid, array $invalid, ...$args): void
     {
         foreach ($valid as $valid_assert) {
             $this->{$method_name}($valid_assert, ...$args);
@@ -320,7 +322,7 @@ class LaravelCommandsAssertionsTraitTest extends \Illuminate\Foundation\Testing\
                 $caught = true;
             }
 
-            $this->assertTrue($caught, 'Passed invalid value: ' . var_export($invalid_assert, true));
+            static::assertTrue($caught, 'Passed invalid value: ' . var_export($invalid_assert, true));
         }
     }
 }

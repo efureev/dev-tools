@@ -2,13 +2,17 @@
 
 namespace Tests\AvtoDev\DevTools\Laravel\DatabaseQueriesLogger;
 
-use Illuminate\Support\Str;
-use Psr\Log\LoggerInterface;
-use Illuminate\Database\Events\QueryExecuted;
+use AvtoDev\DevTools\Laravel\DatabaseQueriesLogger\QueryExecutedEventsListener;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelLogFilesAssertsTrait;
-use AvtoDev\DevTools\Laravel\DatabaseQueriesLogger\QueryExecutedEventsListener;
+use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Str;
+use Psr\Log\LoggerInterface;
 
+/**
+ * Class QueryExecutedEventsListenerTest
+ * @package Tests\AvtoDev\DevTools\Laravel\DatabaseQueriesLogger
+ */
 class QueryExecutedEventsListenerTest extends \Illuminate\Foundation\Testing\TestCase
 {
     use CreatesApplicationTrait,
@@ -22,7 +26,7 @@ class QueryExecutedEventsListenerTest extends \Illuminate\Foundation\Testing\Tes
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,12 +40,12 @@ class QueryExecutedEventsListenerTest extends \Illuminate\Foundation\Testing\Tes
      *
      * @return void
      */
-    public function testLoggingLevel()
+    public function testLoggingLevel(): void
     {
-        $this->assertEquals('debug', $this->instance->loggingLevel());
+        static::assertEquals('debug', $this->instance->loggingLevel());
 
         \putenv('DATABASE_QUERIES_LOGGING_LEVEL=warning');
-        $this->assertEquals('warning', $this->instance->loggingLevel());
+        static::assertEquals('warning', $this->instance->loggingLevel());
 
         // Unset back
         \putenv('DATABASE_QUERIES_LOGGING_LEVEL');
@@ -52,7 +56,7 @@ class QueryExecutedEventsListenerTest extends \Illuminate\Foundation\Testing\Tes
      *
      * @return void
      */
-    public function testHandle()
+    public function testHandle(): void
     {
         $event = new QueryExecuted(
             $sql = 'select * from users_' . Str::random(),
@@ -71,9 +75,9 @@ class QueryExecutedEventsListenerTest extends \Illuminate\Foundation\Testing\Tes
     /**
      * Test handel method with passing datatine.
      *
-     * @return void
+     * @throws \Exception
      */
-    public function testHandleWithDataTime()
+    public function testHandleWithDataTime(): void
     {
         $event = new QueryExecuted(
             $sql = 'select * from users_' . Str::random(),
