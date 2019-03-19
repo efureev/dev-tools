@@ -9,12 +9,12 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "avto-dev",
-            "homepage": "https://github.com/avto-dev"
+            "name": "efureev",
+            "homepage": "https://github.com/efureev"
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.2",
         "symfony/var-dumper": "~3.3 || ^4.0",
         "laravel/laravel": "~5.8.0"
     },
@@ -58,8 +58,8 @@
         "johnkary/phpunit-speedtrap": "Reports on slow-running tests in your PHPUnit test suite"
     },
     "support": {
-        "issues": "https://github.com/avto-dev/dev-tools/issues",
-        "source": "https://github.com/avto-dev/dev-tools"
+        "issues": "https://github.com/efureev/dev-tools/issues",
+        "source": "https://github.com/efureev/dev-tools"
     },
     "config": {
         "sort-packages": true
