@@ -7,8 +7,9 @@
 [![Version][badge_packagist_version]][link_packagist]
 [![Version][badge_php_version]][link_packagist]
 [![Build Status][badge_build_status]][link_build_status]
-[![Coverage][badge_coverage]][link_coverage]
-[![Code quality][badge_code_quality]][link_code_quality]
+[![Maintainability](https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/maintainability)](https://codeclimate.com/github/efureev/dev-tools/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/test_coverage)](https://codeclimate.com/github/efureev/dev-tools/test_coverage)
+[![codecov](https://codecov.io/gh/efureev/dev-tools/branch/master/graph/badge.svg)][link_coverage]
 [![Downloads count][badge_downloads_count]][link_packagist]
 [![License][badge_license]][link_license]
 
@@ -17,7 +18,7 @@
 Require this package with composer using the following command:
 
 ```shell
-$ composer require --dev efureev/dev-tools "^2.0.0"
+$ composer require --dev feugene/dev-tools "^2.0.1"
 ```
 
 > Installed `composer` is required ([how to install composer][getcomposer]).
@@ -66,7 +67,7 @@ Bootstrap - это файл, который выполняется **перед 
 #### Для Laravel-приложений
 
 Написание кода по рекурсивному созданию директорий, соединению с БД может показаться вам довольно утомительным. Для того, чтобы упростить данную задачу вы можете создать свой класс `bootsrapper`-а, который умеет **поочередное** выполнение всех методов внутри себя, начинающихся с префикса `boot*` при создании собственного экземпляра. Более того - `$this->app` уже хранит инстанс вашего приложения (достаточно подключить нужный трейт). Взгляните на пример:
- 
+
 ```php
 class MyBootstrap extends AvtoDev\DevTools\Tests\Bootstrap\AbstractLaravelTestsBootstrapper
 {
@@ -130,7 +131,7 @@ class MyBootstrap extends \AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstr
 `LaravelEventsAssertionsTrait` | Методы тестирования событий (events) и их слушателей (listeners)
 `LaravelLogFilesAssertsTrait` | Методы тестирования лог-файлов Laravel приложения
 `LaravelCommandsAssertionsTrait` | Методы тестирования Laravel artisan комманд
-`WithDatabaseQueriesLogging` | Подключая данный трейт в класс теста - все запросы к БД будут записываться в log-файл (класс теста должен наследоваться при этом от `AbstractLaravelTestCase`) 
+`WithDatabaseQueriesLogging` | Подключая данный трейт в класс теста - все запросы к БД будут записываться в log-файл (класс теста должен наследоваться при этом от `AbstractLaravelTestCase`)
 `CarbonAssertionsTrait` | Методы для тестирования `Carbon`-объектов
 `WithDatabaseDisconnects` | Подключая данный трейт в класс теста - на `tearDown` происходит отключение от всех БД ([причина](https://www.neontsunami.com/posts/too-many-connections-using-phpunit-for-testing-laravel-51))
 `WithMemoryClean` | Подключая данный трейт в класс теста - на `tearDown` происходит очистка свойств класса. Для использования этого трейта вне `Laravel-framework` необходимо вызывать метод `clearMemory` на `tearDown` интересующего класса
@@ -168,10 +169,8 @@ If you will find any package errors, please, [make an issue][link_create_issue] 
 This is open-sourced software licensed under the [MIT License][link_license].
 
 [badge_packagist_version]:https://img.shields.io/packagist/v/efureev/dev-tools.svg?maxAge=180
-[badge_php_version]:https://img.shields.io/packagist/php-v/efureev/dev-tools.svg?longCache=true
+[badge_php_version]:https://img.shields.io/packagist/php-v/7.2.svg?longCache=true
 [badge_build_status]:https://travis-ci.org/efureev/dev-tools.svg?branch=master
-[badge_code_quality]:https://img.shields.io/scrutinizer/g/efureev/dev-tools.svg?maxAge=180
-[badge_coverage]:https://img.shields.io/codecov/c/github/efureev/dev-tools/master.svg?maxAge=60
 [badge_downloads_count]:https://img.shields.io/packagist/dt/efureev/dev-tools.svg?maxAge=180
 [badge_license]:https://img.shields.io/packagist/l/efureev/dev-tools.svg?longCache=true
 [badge_release_date]:https://img.shields.io/github/release-date/efureev/dev-tools.svg?style=flat-square&maxAge=180
