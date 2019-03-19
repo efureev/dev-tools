@@ -3,15 +3,10 @@
 </p>
 
 # PHP developers tools
-
-[![Version][badge_packagist_version]][link_packagist]
-[![Version][badge_php_version]][link_packagist]
 [![Build Status][badge_build_status]][link_build_status]
 [![Maintainability](https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/maintainability)](https://codeclimate.com/github/efureev/dev-tools/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/test_coverage)](https://codeclimate.com/github/efureev/dev-tools/test_coverage)
 [![codecov](https://codecov.io/gh/efureev/dev-tools/branch/master/graph/badge.svg)][link_coverage]
-[![Downloads count][badge_downloads_count]][link_packagist]
-[![License][badge_license]][link_license]
 
 ## Install
 
