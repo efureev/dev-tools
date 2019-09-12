@@ -1,16 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
-use InvalidArgumentException;
+use PHPUnit\Framework\AssertionFailedError;
 
 /**
- * Trait LaravelRoutesAssertsTrait
- * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ * @mixin \Illuminate\Foundation\Testing\TestCase
  */
 trait LaravelRoutesAssertsTrait
 {
@@ -19,26 +18,25 @@ trait LaravelRoutesAssertsTrait
      *
      * @param Router $router
      *
-     * @throws \InvalidArgumentException
+     * @throws AssertionFailedError
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     *
+     * @return void
      */
-    public function assertAllRoutesHasActions($router = null): void
+    public function assertAllRoutesHasActions(?Router $router = null): void
     {
         if ($router === null) {
             $router = $this->app->make(Router::class);
         }
 
-        if ($router instanceof Router) {
-            /** @var Route $route */
-            foreach ($router->getRoutes() as $route) {
-                $controller = $route->getAction()['uses'] ?? null;
-                if (\is_string($controller)) {
-                    $class_method = \explode('@', $controller, 2);
-                    static::assertClassExists($class_method[0]);
-                    static::assertHasMethods($class_method[0], $class_method[1] ?? '__invoke');
-                }
+        /** @var Route $route */
+        foreach ($router->getRoutes() as $route) {
+            $controller = $route->getAction()['uses'] ?? null;
+            if (\is_string($controller)) {
+                $class_method = \explode('@', $controller, 2);
+                $this->assertClassExists($class_method[0]);
+                $this->assertHasMethods($class_method[0], $class_method[1] ?? '__invoke');
             }
-        } else {
-            throw new InvalidArgumentException('Router must be instance of ' . Router::class);
         }
     }
 }

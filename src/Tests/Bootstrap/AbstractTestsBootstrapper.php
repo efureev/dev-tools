@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace AvtoDev\DevTools\Tests\Bootstrap;
 
@@ -25,9 +25,9 @@ abstract class AbstractTestsBootstrapper
      */
     public function __construct()
     {
-        set_exception_handler(function ($e) {
+        \set_exception_handler(function ($e) {
             if ($e instanceof Exception || $e instanceof TypeError) {
-                echo sprintf(
+                echo \sprintf(
                     'Exception: "%s" (file: %s, line: %d)' . PHP_EOL,
                     $e->getMessage(),
                     $e->getFile(),
@@ -39,7 +39,7 @@ abstract class AbstractTestsBootstrapper
         });
 
         // Iterate all methods names
-        foreach (get_class_methods(static::class) as $method_name) {
+        foreach (\get_class_methods(static::class) as $method_name) {
             // Check for method name prefix
             if (static::startsWith($method_name, static::MAGIC_METHODS_PREFIX)) {
                 // ...and make call
@@ -52,7 +52,7 @@ abstract class AbstractTestsBootstrapper
             }
         }
 
-        restore_exception_handler();
+        \restore_exception_handler();
     }
 
     /**

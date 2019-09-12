@@ -12,8 +12,7 @@ use PHPUnit\Framework\AssertionFailedError;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 /**
- * Trait LaravelLogFilesAssertsTrait
- * @package AvtoDev\DevTools\Tests\PHPUnit\Traits
+ * @mixin \Illuminate\Foundation\Testing\TestCase
  */
 trait LaravelLogFilesAssertsTrait
 {
@@ -90,17 +89,20 @@ trait LaravelLogFilesAssertsTrait
      * Assert that log file exists.
      *
      * @param string $file_name
-     *
-     * @throws AssertionFailedError
-     * @throws InvalidArgumentException
+     * @param string $message
      *
      * @return void
+     * @throws InvalidArgumentException
+     *
+     * @throws AssertionFailedError
      */
-    public function assertLogFileExists(string $file_name = 'laravel.log'): void
+    public function assertLogFileExists(string $file_name = 'laravel.log', string $message = ''): void
     {
         $this->assertFileExists(
             $this->getDefaultLogsDirectoryPath($file_name),
-            "Log file [{$file_name}] does not exists."
+            $message === ''
+                ? "Log file [{$file_name}] does not exists."
+                : $message
         );
     }
 
@@ -108,17 +110,20 @@ trait LaravelLogFilesAssertsTrait
      * Assert that log file NOT exists.
      *
      * @param string $file_name
-     *
-     * @throws AssertionFailedError
-     * @throws InvalidArgumentException
+     * @param string $message
      *
      * @return void
+     * @throws InvalidArgumentException
+     *
+     * @throws AssertionFailedError
      */
-    public function assertLogFileNotExists(string $file_name = 'laravel.log'): void
+    public function assertLogFileNotExists(string $file_name = 'laravel.log', string $message = ''): void
     {
         $this->assertFileNotExists(
             $this->getDefaultLogsDirectoryPath($file_name),
-            "Log file [{$file_name}] exists (but should be not)."
+            $message === ''
+                ? "Log file [{$file_name}] exists (but should be not)."
+                : $message
         );
     }
 
@@ -128,22 +133,26 @@ trait LaravelLogFilesAssertsTrait
      * @param string $substring
      * @param string $file
      * @param int|null $lines_limit Make search only in N last log files lines. Pass null to disable this limitation
-     *
-     * @throws AssertionFailedError
-     * @throws InvalidArgumentException
+     * @param string $message
      *
      * @return void
+     * @throws InvalidArgumentException
+     *
+     * @throws AssertionFailedError
      */
-    public function assertLogFileContains(string $substring, string $file = 'laravel.log', $lines_limit = null): void
+    public function assertLogFileContains(string $substring,
+                                          string $file = 'laravel.log',
+                                          ?int $lines_limit = null,
+                                          string $message = ''): void
     {
         $lines = $this->getLogFileContentAsArray($file, $lines_limit === null
             ? $lines_limit
             : $lines_limit + 1);
 
         $this->assertLogFileExists($file);
-
-        $this->assertStringContainsString($substring, \implode("\n", $lines),
-            "Log file [{$file}] does not contains [{$substring}].");
+        $this->assertStringContainsString($substring, \implode("\n", $lines), $message === ''
+            ? "Log file [{$file}] does not contains [{$substring}]."
+            : $message);
     }
 
     /**
@@ -152,19 +161,25 @@ trait LaravelLogFilesAssertsTrait
      * @param string $substring
      * @param string $file
      * @param int|null $lines_limit Make search only in N last log files lines. Pass null to disable this limitation
-     *
-     * @throws AssertionFailedError
-     * @throws InvalidArgumentException
+     * @param string $message
      *
      * @return void
+     * @throws InvalidArgumentException
+     *
+     * @throws AssertionFailedError
      */
-    public function assertLogFileNotContains(string $substring, string $file = 'laravel.log', $lines_limit = null): void
+    public function assertLogFileNotContains(string $substring,
+                                             string $file = 'laravel.log',
+                                             ?int $lines_limit = null,
+                                             string $message = ''): void
     {
         $lines = $this->getLogFileContentAsArray($file, $lines_limit === null
             ? $lines_limit
             : $lines_limit + 1);
 
-        $this->assertStringNotContainsString($substring, \implode("\n", $lines), "Log file [{$file}] contains [{$substring}].");
+        static::assertStringNotContainsString($substring, \implode("\n", $lines), $message === ''
+            ? "Log file [{$file}] contains [{$substring}]."
+            : $message);
     }
 
     /**
@@ -192,18 +207,15 @@ trait LaravelLogFilesAssertsTrait
      *
      * @param string $file_name
      *
-     * @return string|null
+     * @return string
      */
-    public function getLogFileContent(string $file_name = 'laravel.log'): ?string
+    public function getLogFileContent(string $file_name = 'laravel.log'): string
     {
         $file_path = $this->getDefaultLogsDirectoryPath($file_name);
 
         $this->assertFileExists($file_path, "Log file [{$file_path}] does not exists.");
 
-        if (!$content = \file_get_contents($file_path)) {
-            return null;
-        }
-        return $content;
+        return (string)\file_get_contents($file_path);
     }
 
     /**
@@ -214,10 +226,10 @@ trait LaravelLogFilesAssertsTrait
      *
      * @return string[]
      */
-    public function getLogFileContentAsArray(string $file_name = 'laravel.log', $lines_limit = null): array
+    public function getLogFileContentAsArray(string $file_name = 'laravel.log', ?int $lines_limit = null): array
     {
         $content = $this->getLogFileContent($file_name);
-        $lines = \preg_split('/\\r|\\n/', $content);
+        $lines = (array)\preg_split('/\\r|\\n/', $content);
         $lines_count = \count($lines);
 
         if ($lines_limit !== null && $lines_limit > 0 && $lines_count >= $lines_limit) {

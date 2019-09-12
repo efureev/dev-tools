@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
+use Illuminate\Support\Facades\Event;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelEventsAssertionsTrait;
-use Illuminate\Support\Facades\Event;
 
 /**
- * Class LaravelEventsAssertionsTraitTest
- * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelEventsAssertionsTrait<extended>
  */
 class LaravelEventsAssertionsTraitTest extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -24,9 +25,8 @@ class LaravelEventsAssertionsTraitTest extends \Illuminate\Foundation\Testing\Te
      */
     public function testTrait(): void
     {
-        $event = 'foo.event';
-        $listener = new class
-        {
+        $event    = 'foo.event';
+        $listener = new class {
         };
 
         static::assertEventHasNoListener($event, $listener);

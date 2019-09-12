@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Foundation\Application;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 /**
  * Trait CreatesApplicationTrait
@@ -17,9 +17,9 @@ trait CreatesApplicationTrait
     /**
      * Get application bootstrap file(s).
      *
-     * @return string|array
+     * @return string[]
      */
-    public function getApplicationBootstrapFiles()
+    public function getApplicationBootstrapFiles(): array
     {
         return [
             __DIR__ . '/../bootstrap/app.php',

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
+namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\AdditionalAssertionsTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
@@ -12,11 +12,13 @@ use PHPUnit\Framework\ExpectationFailedException;
 use Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits\Stubs\ControllerStub;
 
 /**
- * @coversDefaultClass \AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelRoutesAssertsTrait
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelRoutesAssertsTrait<extended>
  */
 class LaravelRoutesAssertsTraitTest extends \Illuminate\Foundation\Testing\TestCase
 {
-    use CreatesApplicationTrait, AdditionalAssertionsTrait, LaravelRoutesAssertsTrait;
+    use CreatesApplicationTrait,
+        AdditionalAssertionsTrait,
+        LaravelRoutesAssertsTrait;
 
     /**
      * @var Router
@@ -45,8 +47,6 @@ class LaravelRoutesAssertsTraitTest extends \Illuminate\Foundation\Testing\TestC
     /**
      * Test assertion.
      *
-     * @covers ::assertAllRoutesHasActions
-     *
      * @throws \InvalidArgumentException
      */
     public function testExistedRoute(): void
@@ -59,8 +59,6 @@ class LaravelRoutesAssertsTraitTest extends \Illuminate\Foundation\Testing\TestC
     /**
      * Test route with using method.
      *
-     * @covers ::assertAllRoutesHasActions
-     *
      * @throws \InvalidArgumentException
      */
     public function testInvokedRoute(): void
@@ -72,8 +70,6 @@ class LaravelRoutesAssertsTraitTest extends \Illuminate\Foundation\Testing\TestC
 
     /**
      * Test non existing method in controller.
-     *
-     * @covers ::assertAllRoutesHasActions
      *
      * @throws \InvalidArgumentException
      */
@@ -88,8 +84,6 @@ class LaravelRoutesAssertsTraitTest extends \Illuminate\Foundation\Testing\TestC
 
     /**
      * Test non existing controller class.
-     *
-     * @covers ::assertAllRoutesHasActions
      *
      * @throws \InvalidArgumentException
      */

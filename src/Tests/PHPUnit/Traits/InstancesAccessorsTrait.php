@@ -21,15 +21,17 @@ trait InstancesAccessorsTrait
      *
      * @param object $object
      * @param string $method_name
-     * @param array $args
+     * @param array  $args
      *
      * @throws ReflectionException
      *
+     * @deprecated
+     *
      * @return mixed
      */
-    public static function callMethod($object, string $method_name, array $args = [])
+    public function callMethod($object, string $method_name, array $args = [])
     {
-        $class = new ReflectionClass($object);
+        $class  = new ReflectionClass($object);
         $method = $class->getMethod($method_name);
 
         $method->setAccessible(true);
@@ -45,9 +47,11 @@ trait InstancesAccessorsTrait
      *
      * @throws ReflectionException
      *
+     * @deprecated
+     *
      * @return mixed
      */
-    public static function getProperty($object, string $property_name)
+    public function getProperty($object, string $property_name)
     {
         $reflection = new ReflectionClass($object);
 
@@ -68,11 +72,15 @@ trait InstancesAccessorsTrait
      *
      * @return string
      */
-    public static function getClosureHash(Closure $closure): string
+    public function getClosureHash(Closure $closure): string
     {
         // @codeCoverageIgnoreStart
-        if (!class_exists(ClosureSerializer::class)) {
-            throw new Exception(sprintf('Package [%s] is required for [%s] method', 'jeremeamia/superclosure', __METHOD__));
+        if (! class_exists(ClosureSerializer::class)) {
+            throw new Exception(\sprintf(
+                'Package [%s] is required for [%s] method',
+                'jeremeamia/superclosure',
+                __METHOD__
+            ));
         }
         // @codeCoverageIgnoreEnd
 

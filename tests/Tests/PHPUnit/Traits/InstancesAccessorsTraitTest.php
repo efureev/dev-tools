@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\InstancesAccessorsTrait;
-use PHPUnit\Framework\ExpectationFailedException;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use Tests\AvtoDev\DevTools\AbstractTestCase;
+use PHPUnit\Framework\ExpectationFailedException;
+use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\InstancesAccessorsTrait;
 
 /**
- * Class InstancesAccessorsTraitTest
- * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\InstancesAccessorsTrait<extended>
  */
 class InstancesAccessorsTraitTest extends AbstractTestCase
 {
@@ -25,8 +27,7 @@ class InstancesAccessorsTraitTest extends AbstractTestCase
      */
     public function testsTraitAsserts(): void
     {
-        $instance = new class
-        {
+        $instance             = new class {
             private $property = 'foo';
 
             private function method()
@@ -49,8 +50,8 @@ class InstancesAccessorsTraitTest extends AbstractTestCase
             function () {
             },
             function () {
-                return new class extends AbstractLaravelTestCase
-                {
+                return new class extends AbstractLaravelTestCase {
+                    use CreatesApplicationTrait;
                 };
             },
             function () {

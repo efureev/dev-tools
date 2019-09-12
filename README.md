@@ -4,6 +4,9 @@
 
 # PHP developers tools
 [![Build Status][badge_build_status]][link_build_status]
+[![Coverage][badge_coverage]][link_coverage]
+[![Downloads count][badge_downloads_count]][link_packagist]
+[![License][badge_license]][link_license]
 [![Maintainability](https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/maintainability)](https://codeclimate.com/github/efureev/dev-tools/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/test_coverage)](https://codeclimate.com/github/efureev/dev-tools/test_coverage)
 [![codecov](https://codecov.io/gh/efureev/dev-tools/branch/master/graph/badge.svg)][link_coverage]
@@ -12,8 +15,8 @@
 
 Require this package with composer using the following command:
 
-```shell
-$ composer require --dev feugene/dev-tools "^2.0.1"
+```bash
+$ composer require --dev avto-dev/dev-tools "^2.0"
 ```
 
 > Installed `composer` is required ([how to install composer][getcomposer]).
@@ -24,15 +27,6 @@ $ composer require --dev feugene/dev-tools "^2.0.1"
 
 Данный пакет позволяет легко интегрировать в ваше приложение вспомогательные инструменты, позволяющие более эффективно вести разработку. Разделить их можно на следующие группы:
 
-## Вспомогательные функции
-
-Имя функции | Её назначение
------------ | -------------
-`\dev\dd(...$arguments)` | Выводит удобочитаемый дамп переданных в функцию значений, бросив специальным образом оформленное исключение (при вызове в HTTP-контексте; в CLI контексте работает как обычная `\dd(...)`) <sup>*</sup>
-`\dev\dump(...$arguments)` | Выводит удобочитаемый дамп переданных в функцию значений не прерывая обработку запроса. Необходима регистрация сервис-провайдера [VarDumper](./src/Laravel/VarDumper/ServiceProvider.php) (при вызове в HTTP-контексте; в CLI контексте работает как обычная `\dump(...)`) <sup>*</sup>
-
-> **<sup> * </sup>** корректно работает в связке Laravel + [RoadRunner][roadrunner] (возможно и ReactPHP - не проверено)
-
 ## Вспомогательные сервисы для Laravel
 
 Для Laravel-приложений вы можете подключать следующие сервис-провайдеры:
@@ -40,7 +34,6 @@ $ composer require --dev feugene/dev-tools "^2.0.1"
 Сервис-провайдер | Его назначение
 ---------------- | --------------
 [DatabaseQueriesLogger](./src/Laravel/DatabaseQueriesLogger/ServiceProvider.php) | Производит запись всех обращений к базе данных в лог-файл приложения
-[VarDumper](./src/Laravel/VarDumper/ServiceProvider.php) | Модифицирует HTTP-ответ приложения, добавляя в него результат работы вызовов функции `\dev\dump()`. Данный сервис-провайдер регистрируется **автоматически**
 
 ## Unit-тестирование приложения
 
@@ -62,9 +55,11 @@ Bootstrap - это файл, который выполняется **перед 
 #### Для Laravel-приложений
 
 Написание кода по рекурсивному созданию директорий, соединению с БД может показаться вам довольно утомительным. Для того, чтобы упростить данную задачу вы можете создать свой класс `bootsrapper`-а, который умеет **поочередное** выполнение всех методов внутри себя, начинающихся с префикса `boot*` при создании собственного экземпляра. Более того - `$this->app` уже хранит инстанс вашего приложения (достаточно подключить нужный трейт). Взгляните на пример:
-
+ 
 ```php
-class MyBootstrap extends AvtoDev\DevTools\Tests\Bootstrap\AbstractLaravelTestsBootstrapper
+<?php
+
+class MyBootstrap extends \AvtoDev\DevTools\Tests\Bootstrap\AbstractLaravelTestsBootstrapper
 {
     use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 
@@ -82,6 +77,8 @@ class MyBootstrap extends AvtoDev\DevTools\Tests\Bootstrap\AbstractLaravelTestsB
 Более простая реализация:
 
 ```php
+<?php
+
 class MyBootstrap extends \AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstrapper
 {
     public function bootMakeSome()
@@ -126,10 +123,11 @@ class MyBootstrap extends \AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstr
 `LaravelEventsAssertionsTrait` | Методы тестирования событий (events) и их слушателей (listeners)
 `LaravelLogFilesAssertsTrait` | Методы тестирования лог-файлов Laravel приложения
 `LaravelCommandsAssertionsTrait` | Методы тестирования Laravel artisan комманд
-`WithDatabaseQueriesLogging` | Подключая данный трейт в класс теста - все запросы к БД будут записываться в log-файл (класс теста должен наследоваться при этом от `AbstractLaravelTestCase`)
+`WithDatabaseQueriesLogging` | Подключая данный трейт в класс теста - все запросы к БД будут записываться в log-файл (класс теста должен наследоваться при этом от `AbstractLaravelTestCase`) 
 `CarbonAssertionsTrait` | Методы для тестирования `Carbon`-объектов
 `WithDatabaseDisconnects` | Подключая данный трейт в класс теста - на `tearDown` происходит отключение от всех БД ([причина](https://www.neontsunami.com/posts/too-many-connections-using-phpunit-for-testing-laravel-51))
 `WithMemoryClean` | Подключая данный трейт в класс теста - на `tearDown` происходит очистка свойств класса. Для использования этого трейта вне `Laravel-framework` необходимо вызывать метод `clearMemory` на `tearDown` интересующего класса
+`WithGuzzleMocking` | Трейт, поставляющий метод создания хэндлера-обработчика запросов HTTP клиента Guzzle 6
 `AppVersionAssertionsTrait` | Методы для проверки версии приложения и крайней версии, указанной в файле `CHANGELOG.md`
 `LaravelRoutesAssertsTrait` | Методы для проверки правильной настройки роутов Laravel
 
@@ -137,12 +135,12 @@ class MyBootstrap extends \AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstr
 
 ### Testing
 
-For package testing we use `phpunit` framework. Just write into your terminal:
+For package testing we use `phpunit` framework and `docker-ce` + `docker-compose` as develop environment. So, just write into your terminal after repository cloning:
 
-```shell
-$ git clone git@github.com:efureev/dev-tools.git ./dev-tools && cd $_
-$ composer install
-$ composer test
+```bash
+$ make build
+$ make latest # or 'make lowest'
+$ make test
 ```
 
 ## Changes log
@@ -163,25 +161,25 @@ If you will find any package errors, please, [make an issue][link_create_issue] 
 
 This is open-sourced software licensed under the [MIT License][link_license].
 
-[badge_packagist_version]:https://img.shields.io/packagist/v/efureev/dev-tools.svg?maxAge=180
-[badge_php_version]:https://img.shields.io/packagist/php-v/7.2.svg?longCache=true
-[badge_build_status]:https://travis-ci.org/efureev/dev-tools.svg?branch=master
-[badge_downloads_count]:https://img.shields.io/packagist/dt/efureev/dev-tools.svg?maxAge=180
-[badge_license]:https://img.shields.io/packagist/l/efureev/dev-tools.svg?longCache=true
-[badge_release_date]:https://img.shields.io/github/release-date/efureev/dev-tools.svg?style=flat-square&maxAge=180
-[badge_commits_since_release]:https://img.shields.io/github/commits-since/efureev/dev-tools/latest.svg?style=flat-square&maxAge=180
-[badge_issues]:https://img.shields.io/github/issues/efureev/dev-tools.svg?style=flat-square&maxAge=180
-[badge_pulls]:https://img.shields.io/github/issues-pr/efureev/dev-tools.svg?style=flat-square&maxAge=180
-[link_releases]:https://github.com/efureev/dev-tools/releases
-[link_packagist]:https://packagist.org/packages/efureev/dev-tools
-[link_build_status]:https://travis-ci.org/efureev/dev-tools
-[link_coverage]:https://codecov.io/gh/efureev/dev-tools/
-[link_changes_log]:https://github.com/efureev/dev-tools/blob/master/CHANGELOG.md
-[link_code_quality]:https://scrutinizer-ci.com/g/efureev/dev-tools/
-[link_issues]:https://github.com/efureev/dev-tools/issues
-[link_create_issue]:https://github.com/efureev/dev-tools/issues/new/choose
-[link_commits]:https://github.com/efureev/dev-tools/commits
-[link_pulls]:https://github.com/efureev/dev-tools/pulls
-[link_license]:https://github.com/efureev/dev-tools/blob/master/LICENSE
+[badge_packagist_version]:https://img.shields.io/packagist/v/avto-dev/dev-tools.svg?maxAge=180
+[badge_php_version]:https://img.shields.io/packagist/php-v/avto-dev/dev-tools.svg?longCache=true
+[badge_build_status]:https://travis-ci.org/avto-dev/dev-tools.svg?branch=master
+[badge_coverage]:https://img.shields.io/codecov/c/github/avto-dev/dev-tools/master.svg?maxAge=60
+[badge_downloads_count]:https://img.shields.io/packagist/dt/avto-dev/dev-tools.svg?maxAge=180
+[badge_license]:https://img.shields.io/packagist/l/avto-dev/dev-tools.svg?longCache=true
+[badge_release_date]:https://img.shields.io/github/release-date/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
+[badge_commits_since_release]:https://img.shields.io/github/commits-since/avto-dev/dev-tools/latest.svg?style=flat-square&maxAge=180
+[badge_issues]:https://img.shields.io/github/issues/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
+[badge_pulls]:https://img.shields.io/github/issues-pr/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
+[link_releases]:https://github.com/avto-dev/dev-tools/releases
+[link_packagist]:https://packagist.org/packages/avto-dev/dev-tools
+[link_build_status]:https://travis-ci.org/avto-dev/dev-tools
+[link_coverage]:https://codecov.io/gh/avto-dev/dev-tools/
+[link_changes_log]:https://github.com/avto-dev/dev-tools/blob/master/CHANGELOG.md
+[link_issues]:https://github.com/avto-dev/dev-tools/issues
+[link_create_issue]:https://github.com/avto-dev/dev-tools/issues/new/choose
+[link_commits]:https://github.com/avto-dev/dev-tools/commits
+[link_pulls]:https://github.com/avto-dev/dev-tools/pulls
+[link_license]:https://github.com/avto-dev/dev-tools/blob/master/LICENSE
 [getcomposer]:https://getcomposer.org/download/
 [roadrunner]:https://github.com/spiral/roadrunner

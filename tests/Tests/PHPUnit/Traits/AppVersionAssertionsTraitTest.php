@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use PHPUnit\Framework\ExpectationFailedException;
 use Tests\AvtoDev\DevTools\AbstractTestCase;
+use PHPUnit\Framework\ExpectationFailedException;
 
 /**
- * Class AppVersionAssertionsTraitTest
- * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait<extended>
  */
 class AppVersionAssertionsTraitTest extends AbstractTestCase
 {
@@ -18,8 +19,7 @@ class AppVersionAssertionsTraitTest extends AbstractTestCase
      */
     public function testWithKeepChangelogFormat(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase
-        {
+        $instance = new class extends \PHPUnit\Framework\TestCase {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string
@@ -200,8 +200,7 @@ EOF;
      */
     public function testWithShortChangelogFormat(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase
-        {
+        $instance = new class extends \PHPUnit\Framework\TestCase {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string
@@ -262,8 +261,7 @@ EOF;
      */
     public function testWithLongVersionsParts(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase
-        {
+        $instance = new class extends \PHPUnit\Framework\TestCase {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string
@@ -352,8 +350,7 @@ EOF;
      */
     public function testGetChangeLogFileContent(): void
     {
-        $instance = new class extends \PHPUnit\Framework\TestCase
-        {
+        $instance = new class extends \PHPUnit\Framework\TestCase {
             use \AvtoDev\DevTools\Tests\PHPUnit\Traits\AppVersionAssertionsTrait;
 
             public function getChangeLogFileLocation(): string

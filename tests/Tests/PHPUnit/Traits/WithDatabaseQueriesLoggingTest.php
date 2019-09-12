@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
+use Illuminate\Config\Repository as ConfigRepository;
 use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\WithDatabaseQueriesLogging;
-use Illuminate\Config\Repository as ConfigRepository;
 
 /**
  * Class WithDatabaseQueriesLoggingTest
  * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\WithDatabaseQueriesLogging<extended>
  */
 class WithDatabaseQueriesLoggingTest extends AbstractLaravelTestCase
 {
@@ -26,9 +29,9 @@ class WithDatabaseQueriesLoggingTest extends AbstractLaravelTestCase
 
         $config->set('database.default', 'sqlite');
         $config->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => ':memory:',
-            'prefix' => '',
+            'prefix'   => '',
         ]);
 
         $this->app->make('db')->reconnect();

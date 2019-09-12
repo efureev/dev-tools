@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
@@ -51,7 +51,7 @@ trait AppVersionAssertionsTrait
      */
     public function assertAppVersionAndVersionInChangeLogIsEquals(): void
     {
-        static::assertSame(
+        $this->assertSame(
             $this->getCurrentApplicationVersion(),
             $this->getLastChangeLogVersion(),
             "Application version ({$this->getCurrentApplicationVersion()}) and version in " .

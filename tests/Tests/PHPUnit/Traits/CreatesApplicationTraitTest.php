@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 use Illuminate\Foundation\Application;
 use Tests\AvtoDev\DevTools\AbstractTestCase;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 
 /**
- * Class CreatesApplicationTraitTest
- * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait<extended>
  */
 class CreatesApplicationTraitTest extends AbstractTestCase
 {
@@ -49,7 +50,7 @@ class CreatesApplicationTraitTest extends AbstractTestCase
      */
     public function testGetApplicationBootstrapFiles(): void
     {
-        $list = (array)$this->getApplicationBootstrapFiles();
+        $list  = (array) $this->getApplicationBootstrapFiles();
         $found = false;
 
         static::assertNotEmpty($list);

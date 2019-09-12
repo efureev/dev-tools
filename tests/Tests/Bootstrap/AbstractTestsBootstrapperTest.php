@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\Bootstrap;
 
-use AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstrapper;
 use Exception;
 use Tests\AvtoDev\DevTools\AbstractTestCase;
+use AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstrapper;
 
 /**
- * Class AbstractTestsBootstrapperTest
- * @package Tests\AvtoDev\DevTools\Tests\Bootstrap
+ * @covers \AvtoDev\DevTools\Tests\Bootstrap\AbstractTestsBootstrapper<extended>
  */
 class AbstractTestsBootstrapperTest extends AbstractTestCase
 {

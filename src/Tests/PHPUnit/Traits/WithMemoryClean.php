@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
@@ -16,7 +16,7 @@ trait WithMemoryClean
     /**
      * Reset all nonstatic properties to null.
      *
-     * WARNING this code has bad influence on time of execution
+     * WARNING: this code has bad influence on time of execution
      */
     public function clearMemory(): void
     {
@@ -31,6 +31,7 @@ trait WithMemoryClean
                 $property->setValue($this, null);
             }
         }
+
         unset($refection);
 
         \gc_collect_cycles();

@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
 use Carbon\Carbon;
 use Tests\AvtoDev\DevTools\AbstractTestCase;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CarbonAssertionsTrait;
 
+/**
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\CarbonAssertionsTrait<extended>
+ */
 class CarbonAssertionsTraitTest extends AbstractTestCase
 {
     use CarbonAssertionsTrait;
@@ -15,7 +20,7 @@ class CarbonAssertionsTraitTest extends AbstractTestCase
      *
      * @return void
      */
-    public function testAssertCarbonParseEqualsPositive():void
+    public function testAssertCarbonParseEqualsPositive(): void
     {
         $dt_sec = \DateTime::createFromFormat('j-M-Y H:i:s', '15-Feb-2009 00:00:00');
         $dt     = \DateTime::createFromFormat('j-M-Y', '15-Feb-2009');
@@ -36,7 +41,7 @@ class CarbonAssertionsTraitTest extends AbstractTestCase
      *
      * @return void
      */
-    public function testAssertCarbonParseEqualsNegative():void
+    public function testAssertCarbonParseEqualsNegative(): void
     {
         static::assertTrue($this->assertAssertationInsideClosureFailed(function () {
             $dt = \DateTime::createFromFormat('j-M-Y', '15-Feb-2009');

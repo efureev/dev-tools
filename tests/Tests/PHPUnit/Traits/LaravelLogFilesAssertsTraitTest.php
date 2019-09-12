@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
+use Illuminate\Filesystem\Filesystem;
+use PHPUnit\Framework\AssertionFailedError;
+use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelLogFilesAssertsTrait;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
-use PHPUnit\Framework\AssertionFailedError;
 
 /**
- * Class LaravelLogFilesAssertsTraitTest
- * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelLogFilesAssertsTrait<extended>
  */
 class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
 {
@@ -83,8 +84,7 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
         /**
          * This instance will create temp directory, put some files inside her, and works with it.
          */
-        $test_class = new class extends IlluminateTestCase
-        {
+        $test_class = new class extends IlluminateTestCase {
             use CreatesApplicationTrait,
                 LaravelLogFilesAssertsTrait;
 
@@ -96,11 +96,11 @@ class LaravelLogFilesAssertsTraitTest extends IlluminateTestCase
 
                 $files = new Filesystem;
 
-                if (!$files->isDirectory($deep = $this->temp_logs_path . '/baz')) {
+                if (! $files->isDirectory($deep = $this->temp_logs_path . '/baz')) {
                     $files->makeDirectory($deep, 0755, true);
                 }
 
-                if (!$files->isDirectory($hidden_deep = $this->temp_logs_path . '/.hidden_dir')) {
+                if (! $files->isDirectory($hidden_deep = $this->temp_logs_path . '/.hidden_dir')) {
                     $files->makeDirectory($hidden_deep, 0755, true);
                 }
 

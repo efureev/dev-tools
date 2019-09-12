@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit;
 
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\AdditionalAssertionsTrait;
+use Tests\AvtoDev\DevTools\AbstractTestCase;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CarbonAssertionsTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\CreatesApplicationTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\InstancesAccessorsTrait;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelCommandsAssertionsTrait;
-use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelEventsAssertionsTrait;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\AdditionalAssertionsTrait;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelLogFilesAssertsTrait;
-use Tests\AvtoDev\DevTools\AbstractTestCase;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelEventsAssertionsTrait;
+use AvtoDev\DevTools\Tests\PHPUnit\Traits\LaravelCommandsAssertionsTrait;
+
 
 /**
- * Class AbstractTestCasesTest
- * @package Tests\AvtoDev\DevTools\Tests\PHPUnit
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\AbstractTestCase<extended>
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase<extended>
  */
 class AbstractTestCasesTest extends AbstractTestCase
 {
@@ -25,13 +28,12 @@ class AbstractTestCasesTest extends AbstractTestCase
      */
     public function testAbstractTestCase(): void
     {
-        $instance = new class extends \AvtoDev\DevTools\Tests\PHPUnit\AbstractTestCase
-        {
+        $instance = new class extends \AvtoDev\DevTools\Tests\PHPUnit\AbstractTestCase {
         };
 
-        static::assertInstanceOf(\PHPUnit\Framework\TestCase::class, $instance);
+        $this->assertInstanceOf(\PHPUnit\Framework\TestCase::class, $instance);
 
-        static::assertClassUsesTraits($instance, [
+        $this->assertClassUsesTraits($instance, [
             AdditionalAssertionsTrait::class,
             InstancesAccessorsTrait::class,
             CarbonAssertionsTrait::class,
@@ -44,15 +46,14 @@ class AbstractTestCasesTest extends AbstractTestCase
      */
     public function testAbstractLaravelTestCase(): void
     {
-        $instance = new class extends \AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase
-        {
+        $instance = new class extends \AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase {
             use CreatesApplicationTrait;
         };
 
-        static::assertInstanceOf(\PHPUnit\Framework\TestCase::class, $instance);
-        static::assertInstanceOf(\Illuminate\Foundation\Testing\TestCase::class, $instance);
+        $this->assertInstanceOf(\PHPUnit\Framework\TestCase::class, $instance);
+        $this->assertInstanceOf(\Illuminate\Foundation\Testing\TestCase::class, $instance);
 
-        static::assertClassUsesTraits($instance, [
+        $this->assertClassUsesTraits($instance, [
             AdditionalAssertionsTrait::class,
             InstancesAccessorsTrait::class,
             CreatesApplicationTrait::class,

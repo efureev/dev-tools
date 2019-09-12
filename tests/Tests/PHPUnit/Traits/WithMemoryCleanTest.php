@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits;
 
-use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
 use AvtoDev\DevTools\Tests\PHPUnit\Traits\WithMemoryClean;
+use AvtoDev\DevTools\Tests\PHPUnit\AbstractLaravelTestCase;
 
 /**
  * Class WithMemoryCleanTest
  * @package Tests\AvtoDev\DevTools\Tests\PHPUnit\Traits
+ *
+ * @covers \AvtoDev\DevTools\Tests\PHPUnit\Traits\WithMemoryClean<extended>
  */
 class WithMemoryCleanTest extends AbstractLaravelTestCase
 {
@@ -38,6 +40,8 @@ class WithMemoryCleanTest extends AbstractLaravelTestCase
      */
     public function testClosureRegistration(): void
     {
+        $closure_hash = $this->getClosureHash($this->cleanMemoryClosureFactory());
+        $found        = false;
         $closure_hash = static::getClosureHash($this->cleanMemoryClosureFactory());
         $found = false;
 
