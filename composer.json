@@ -16,7 +16,7 @@
     "require": {
         "php": ">=7.2",
         "phpunit/phpunit": "~8.1",
-        "avto-dev/stacked-dumper-laravel": "^1.0",
+        "avto-dev/stacked-dumper-laravel": "^1.1",
         "tarampampam/guzzle-url-mock": "^1.1",
         "ext-json": "*"
     },
