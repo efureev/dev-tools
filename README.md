@@ -7,16 +7,16 @@
 [![Coverage][badge_coverage]][link_coverage]
 [![Downloads count][badge_downloads_count]][link_packagist]
 [![License][badge_license]][link_license]
-[![Maintainability](https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/maintainability)](https://codeclimate.com/github/efureev/dev-tools/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/test_coverage)](https://codeclimate.com/github/efureev/dev-tools/test_coverage)
-[![codecov](https://codecov.io/gh/efureev/dev-tools/branch/master/graph/badge.svg)][link_coverage]
+[![Maintainability][badge_codeclimate]][link_codeclimate]
+[![Test Coverage][badge_codeclimate_cover]][link_codeclimate_cover]
+[![codecov][badge_coverage]][link_coverage]
 
 ## Install
 
 Require this package with composer using the following command:
 
 ```bash
-$ composer require --dev avto-dev/dev-tools "^2.0"
+$ composer require --dev feugene/dev-tools "^2.1"
 ```
 
 > Installed `composer` is required ([how to install composer][getcomposer]).
@@ -161,25 +161,28 @@ If you will find any package errors, please, [make an issue][link_create_issue] 
 
 This is open-sourced software licensed under the [MIT License][link_license].
 
-[badge_packagist_version]:https://img.shields.io/packagist/v/avto-dev/dev-tools.svg?maxAge=180
-[badge_php_version]:https://img.shields.io/packagist/php-v/avto-dev/dev-tools.svg?longCache=true
-[badge_build_status]:https://travis-ci.org/avto-dev/dev-tools.svg?branch=master
-[badge_coverage]:https://img.shields.io/codecov/c/github/avto-dev/dev-tools/master.svg?maxAge=60
-[badge_downloads_count]:https://img.shields.io/packagist/dt/avto-dev/dev-tools.svg?maxAge=180
-[badge_license]:https://img.shields.io/packagist/l/avto-dev/dev-tools.svg?longCache=true
-[badge_release_date]:https://img.shields.io/github/release-date/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
-[badge_commits_since_release]:https://img.shields.io/github/commits-since/avto-dev/dev-tools/latest.svg?style=flat-square&maxAge=180
-[badge_issues]:https://img.shields.io/github/issues/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
-[badge_pulls]:https://img.shields.io/github/issues-pr/avto-dev/dev-tools.svg?style=flat-square&maxAge=180
-[link_releases]:https://github.com/avto-dev/dev-tools/releases
-[link_packagist]:https://packagist.org/packages/avto-dev/dev-tools
-[link_build_status]:https://travis-ci.org/avto-dev/dev-tools
-[link_coverage]:https://codecov.io/gh/avto-dev/dev-tools/
-[link_changes_log]:https://github.com/avto-dev/dev-tools/blob/master/CHANGELOG.md
-[link_issues]:https://github.com/avto-dev/dev-tools/issues
-[link_create_issue]:https://github.com/avto-dev/dev-tools/issues/new/choose
-[link_commits]:https://github.com/avto-dev/dev-tools/commits
-[link_pulls]:https://github.com/avto-dev/dev-tools/pulls
-[link_license]:https://github.com/avto-dev/dev-tools/blob/master/LICENSE
+[badge_packagist_version]:https://img.shields.io/packagist/v/feugene/dev-tools.svg?maxAge=180
+[badge_php_version]:https://img.shields.io/packagist/php-v/feugene/dev-tools.svg?longCache=true
+[badge_build_status]:https://travis-ci.org/efureev/dev-tools.svg?branch=master
+[badge_coverage]:https://codecov.io/gh/efureev/dev-tools/branch/master/graph/badge.svg
+[badge_codeclimate]:https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/maintainability
+[badge_codeclimate_cover]:https://api.codeclimate.com/v1/badges/b17c72f8651578be030b/test_coverage
+[badge_downloads_count]:https://img.shields.io/packagist/dt/feugene/dev-tools.svg?maxAge=180
+[badge_license]:https://img.shields.io/packagist/l/feugene/dev-tools.svg?longCache=true
+[badge_release_date]:https://img.shields.io/github/release-date/efureev/dev-tools.svg?style=flat-square&maxAge=180
+[badge_commits_since_release]:https://img.shields.io/github/commits-since/efureev/dev-tools/latest.svg?style=flat-square&maxAge=180
+[badge_issues]:https://img.shields.io/github/issues/efureev/dev-tools.svg?style=flat-square&maxAge=180
+[badge_pulls]:https://img.shields.io/github/issues-pr/efureev/dev-tools.svg?style=flat-square&maxAge=180
+[link_releases]:https://github.com/efureev/dev-tools/releases
+[link_packagist]:https://packagist.org/packages/feugene/dev-tools
+[link_build_status]:https://travis-ci.org/efureev/dev-tools
+[link_coverage]:https://codecov.io/gh/efureev/dev-tools/
+[link_codeclimate]:https://codeclimate.com/github/efureev/dev-tools/maintainability
+[link_codeclimate_cover]:https://codeclimate.com/github/efureev/dev-tools/test_coverage
+[link_changes_log]:https://github.com/efureev/dev-tools/blob/master/CHANGELOG.md
+[link_issues]:https://github.com/efureev/dev-tools/issues
+[link_create_issue]:https://github.com/efureev/dev-tools/issues/new/choose
+[link_commits]:https://github.com/efureev/dev-tools/commits
+[link_pulls]:https://github.com/efureev/dev-tools/pulls
+[link_license]:https://github.com/efureev/dev-tools/blob/master/LICENSE
 [getcomposer]:https://getcomposer.org/download/
-[roadrunner]:https://github.com/spiral/roadrunner
